@@ -1,0 +1,15 @@
+d8fc7af2d06276078f1b80ba0e92c5d5 *DESCRIPTION
+ff260eb1dadab96e538ccad7c110d97d *NAMESPACE
+a1d388ed203231675a4a33446652d561 *R/01utilities.R
+67307fa8e23ba27fec47a704f4a98b3e *R/02price.R
+93f4d7e01423361ea8dd0251e2e225c8 *R/03returns.R
+edafc0e47b5bf10da899d01e26b218b4 *R/04assetsSelection.R
+eff47003de69d0d78b51d13f5defe879 *R/05Portfolio-covFunctions.R
+ac8f102271292b9f1cfea2909fdb3bdc *R/05Portfolio.R
+89daa8b5846d36d3b6c242c62bc4db6d *R/JFE.R
+3d7fac4866d8e30e30f927191fc7d6f9 *data/DJ30.rda
+46412c068ef61fd8c11bc46baf79438f *data/IBM.rda
+7251a3e7247968b3f9035f882b4f7e56 *data/world20.rda
+3ed946a5aaa775db6aeccc07455df879 *man/JFE.Rd
+11c6d99c2fab5ce9df43ba7e8d4cef6d *man/Portfolio-covFunctions.Rd
+6b4352580f516d3a7604e9595ad5b9ab *man/data-sets.Rd
