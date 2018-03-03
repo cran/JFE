@@ -35,7 +35,7 @@ tkadd(priceMenu, "command", label="Time series plot", command =.pricePlot)
 tkadd(priceMenu, "command", label="ACF/PACF plot", command =.PriceAcfPlots)
 tkadd(priceMenu, "command", label="Box plot", command =.PriceBoxPlots)
 tkadd(priceMenu, "command", label="Technical charting(For OHLC only)", command =.priceCharting)
-#tkadd(priceMenu, "command", label="iClick charting", command =.iClickPrice_Menu)
+tkadd(priceMenu, "command", label="iClick Visualization", command =.iClickPrice)
 
 #3. Returns
 returnsMenu <- tkmenu(menuBar)
@@ -59,7 +59,9 @@ tkadd(returnsMenu, "command", label="Dependency plots", command =.acfPlots)
 tkadd(returnsMenu, "command", label="Four QQ plots", command =.QQPlot)
 tkadd(returnsMenu, "command", label="NIG triangle", command =.nigTriangle)
 tkadd(returnsMenu, "command", label="Box plot", command =.ReturnsBoxPlots)
-#tkadd(returnsMenu, "command", label="iClick charting", command =.iClickReturn)
+tkadd(returnsMenu, "command", label="iClick Visualization", command =.iClickReturn)
+tkadd(returnsMenu, "command", label="GARCH", command =.garchMenu)
+
 
 #4. Assets selections
 assetSelectionMenu <- tkmenu(menuBar)

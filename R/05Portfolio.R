@@ -9,7 +9,6 @@ cat("\n","1. Portfolio Backtesting here is basically based on R package fPortfol
     return(data.frame())
   temp=print(load(name))
   dataz=eval(parse(text=temp))
-  dataz=zoo::as.zoo(dataz)
   dat=timeSeries::returns(timeSeries::as.timeSeries(dataz))
   assign("retAS", dat, envir = .JFEEnv)
   cat("Data is imported sucessfully","\n")
@@ -90,7 +89,7 @@ Eq=paste(names(newData)[1], paste(names(newData)[-1], collapse= "+"),sep="~")
 
 .backtestingMenu <- function(){
   retAS=get("retAS",envir = .JFEEnv)
-  top <- tktoplevel(borderwidth=45)
+  top <- tktoplevel(borderwidth=10)
   tkwm.title(top, "Back testing")
 
   xBox <- .variableListBox(top,c("None",colnames(retAS)),title="Pick 1 bench asset")
