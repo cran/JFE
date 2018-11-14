@@ -14,8 +14,6 @@ importedFileName=last(unlist(strsplit(name,"/")))
 assign("importedFileName", importedFileName, envir = .JFEEnv)
 print(paste("You are loading ",importedFileName,sep=" "))
 print(head(dat,3))
-  Sys.setlocale(category = "LC_ALL", locale = "English_United States.1252")
-#.evalCmdChunk(head(dat))
 }
 
 
@@ -181,16 +179,15 @@ tkfocus(top)
   Price=get("Price",envir = .JFEEnv)
   Price=xts::as.xts(Price)
 
-  top <- tktoplevel(borderwidth=20)
+  top <- tktoplevel(borderwidth=45)
   tkwm.title(top, "Charting series")
-
 
   importedFileName=get("importedFileName",envir = .JFEEnv)
 
   onOK <- function(){
 
-    if (ncol(Price) == 0 || !quantmod::is.OHLCV(Price)|| !quantmod::is.OHLC(Price)){
-      tkmessageBox(message = "You must import a OHLC dataset.", icon = "error", type = "ok")
+    if (ncol(Price) == 0){
+      tkmessageBox(message = "You must import a dataset.", icon = "error", type = "ok")
       return()
     }
 
@@ -198,7 +195,7 @@ tkfocus(top)
     addType <-   tclvalue(addVariable)
     a <- tclvalue(startVariable)
     b <- tclvalue(endVariable)
-    themeCOLOR <- tclvalue(themeColVariable)
+
     dataz=Price[paste(a,b,sep="/")]
     transForm=paste("xts::to.",FREQtype,"(dataz)",sep="")
     x=eval(parse(text=transForm))
@@ -208,39 +205,30 @@ tkfocus(top)
     if (addType=="addVo()") {
       dev.new()
       print(paste("You are charting",importedFileName,sep=" "))
-      quantmod::chartSeries(x,name=NAMES,theme=quantmod::chartTheme(themeCOLOR))}
+      quantmod::chartSeries(x,name=NAMES)}
     else {
       dev.new()
       ADD=paste("addVo();",addType,sep="")
       print(paste("You are charting",importedFileName,sep=" "))
-      quantmod::chartSeries(x,name=NAMES,TA=ADD,theme=quantmod::chartTheme(themeCOLOR))
+      quantmod::chartSeries(x,name=NAMES,TA=ADD)
     }
 
   }
 
   rightFrame <- tkframe(top)
-## frequency frame by radio button
+
   freqFrame <- tkframe(rightFrame)
-.radioButtons(top,name="freq", buttons=c("Daily", "Week", "Month","Quarter"), values=c("daily", "weekly", "monthly", "quarterly"), labels=c("Daily data(Default)", "Weekly freq", "Monthly freq","Quarterly freq"), title="Frequency Conversion")
+.radioButtons(top,name="freq", buttons=c("Daily", "Week", "Month","Quarter"), values=c("daily", "weekly", "monthly", "quarterly"), labels=c("Use daily data", "Use weekly freq", "Use monthly freq","Use quarterly freq"), title="Frequency Conversion")
   freqVariable<-freqVariable
   tkgrid(freqFrame, sticky="w")
   tkgrid.configure(freqFrame, sticky="nw")
 
-## themeColor frame  by radio button
-#  leftFrame <- tkframe(top)
-themeColFrame <- tkframe(rightFrame)
-.radioButtons(top,name="themeCol",buttons=c("black","white"),values=c("black","white"), labels=c("black(default)","white"), title="Theme Color")
-  themeColVariable <- themeColVariable
-  tkgrid(themeColFrame,freqFrame,rightFrame,sticky="n")
-#  tkgrid.configure(themeColFrame, sticky="nw")
-
-## TA add() frame  by radio button
-LABEL01 = c("Chart with volume","Add Directional Movement Index","Add Bollinger Bands to Chart","Add Commodity Channel Index","Add Contract Expiration Bars","Add Rate Of Change","Add Relative Strength Index","Add Parabolic Stop and Reversal")
-LABEL02 = c("Add Stochastic Momentum Indicator","Add William's Percent R to Chart","Add SMA Moving Average to Chart","Add EMA Moving Average","Add DEMA Moving Average to Chart", "Add EVMA Moving Average to Chart", "Add EVWMA Moving Average to Chart","Add ZLEMA Moving Average to Chart","Add Moving Average Convergence Divergence to Chart")
-buttons1=c("addVo","addADX", "addBBands","addCCI","addExpiry","addROC","addRSI","addSAR")
-buttons2=c("addSMI","addWPR","addSMA","addEMA","addWMA", "addDEMA","addEVMA","addZLEMA","addMACD")
-values1=c("addVo()","addADX()","addBBands()","addCCI()","addExpiry()","addROC()","addRSI()","addSAR()")
-values2=c("addSMI()","addWPR()","addSMA()","addEMA()","addWMA()", "addDEMA()","addEVWMA()","addZLEMA()","addMACD()")
+  LABEL01=c("Chart with volume","Add Directional Movement Index","Add Bollinger Bands to Chart","Add Commodity Channel Index","Add Contract Expiration Bars","Add Rate Of Change","Add Relative Strength Index","Add Parabolic Stop and Reversal")
+  LABEL02=c("Add Stochastic Momentum Indicator","Add William's Percent R to Chart","Add SMA Moving Average to Chart","Add EMA Moving Average","Add DEMA Moving Average to Chart", "Add EVMA Moving Average to Chart", "Add EVWMA Moving Average to Chart","Add ZLEMA Moving Average to Chart","Add Moving Average Convergence Divergence to Chart")
+  buttons1=c("addVo","addADX", "addBBands","addCCI","addExpiry","addROC","addRSI","addSAR")
+  buttons2=c("addSMI","addWPR","addSMA","addEMA","addWMA", "addDEMA","addEVMA","addZLEMA","addMACD")
+  values1=c("addVo()","addADX()","addBBands()","addCCI()","addExpiry()","addROC()","addRSI()","addSAR()")
+  values2=c("addSMI()","addWPR()","addSMA()","addEMA()","addWMA()", "addDEMA()","addEVWMA()","addZLEMA()","addMACD()")
   LABELS=c(LABEL01,LABEL02)
   BUTTONS=c(buttons1,buttons2)
   VALUES=c(values1,values2)
@@ -251,11 +239,8 @@ values2=c("addSMI()","addWPR()","addSMA()","addEMA()","addWMA()", "addDEMA()","a
   tkgrid(addFrame, sticky="w")
   tkgrid.configure(addFrame, sticky="nw")
 
+ tkgrid(freqFrame,addFrame,rightFrame,sticky="w")
 
- tkgrid(freqFrame,addFrame,themeColFrame,rightFrame,sticky="w")
-
-
- ## startFrame by entry
   startFrame <- tkframe(rightFrame)
   startVariable <- tclVar(as.character(as.Date(time(Price)[1])))
   startField <- tkentry(startFrame, width="12", textvariable=startVariable)
@@ -263,15 +248,13 @@ values2=c("addSMI()","addWPR()","addSMA()","addEMA()","addWMA()", "addDEMA()","a
   tkgrid(startFrame, sticky="w")
   tkgrid.configure(startField, sticky="nw")
 
-#  endFrame by entry
+#  endFrame <- tkframe(rightFrame)
   endFrame <- tkframe(rightFrame)
   endVariable <- tclVar(as.character(as.Date(time(Price)[nrow(Price)])))
   endField <- tkentry(endFrame, width="12", textvariable=endVariable)
   tkgrid(tklabel(endFrame, text="End  date = ", fg="blue"), endField, sticky="w")
   tkgrid(endFrame, sticky="w")
   tkgrid.configure(endField, sticky="nw")
-
-
 
   #====ok and quit
   buttonsFrame <- tkframe(top,width=250)
@@ -299,13 +282,13 @@ values2=c("addSMI()","addWPR()","addSMA()","addEMA()","addWMA()", "addDEMA()","a
 
 
 
-#.iClickPrice <- function (dataz){
-#assetPrice=dataz
-#print(head(assetPrice))
-#iClick::iClick.VisAssetPrice(assetPrice)
-#}
+.iClickPrice <- function (dataz){
+assetPrice=dataz
+print(head(assetPrice))
+iClick::iClick.VisAssetPrice(assetPrice)
+}
 
-.iClickPrice <- function() {
+.iClickPrice_Menu <- function() {
 Price=get("Price",envir = .JFEEnv)
 top <- tktoplevel(borderwidth=10)
 tkwm.title(top, "Execute iClick for asset price")
@@ -318,10 +301,10 @@ onOK <- function(){
    tkmessageBox(message = "You must select a variable.", icon = "error", type = "ok")
     return()
       }
+Dates=as.character(time(Price))
+infile=data.frame(Dates,unclass(Price[,x]))
 
-#infile=Price[,x]
-#.iClickPrice(infile)
-iClick::iClick.VisAssetPrice(Price[,x])
+.iClickPrice(infile)
 
 }
   tkgrid(.getFrame(xBox), sticky="nw")
