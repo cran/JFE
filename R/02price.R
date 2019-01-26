@@ -8,7 +8,7 @@
     return(data.frame())
 	temp=print(load(name))
 	dat=eval(parse(text=temp))
-  assign("Price", dat, envir = .JFEEnv)
+	assign("Price", dat, envir = .JFEEnv)
 
 importedFileName=last(unlist(strsplit(name,"/")))
 assign("importedFileName", importedFileName, envir = .JFEEnv)
@@ -282,11 +282,11 @@ tkfocus(top)
 
 
 
-.iClickPrice <- function (dataz){
-assetPrice=dataz
-print(head(assetPrice))
-iClick::iClick.VisAssetPrice(assetPrice)
-}
+#.iClickPrice <- function (dataz){
+#assetPrice=dataz
+#print(head(assetPrice))
+#iClick::iClick.VisAssetPrice(assetPrice)
+#}
 
 .iClickPrice_Menu <- function() {
 Price=get("Price",envir = .JFEEnv)
@@ -301,10 +301,11 @@ onOK <- function(){
    tkmessageBox(message = "You must select a variable.", icon = "error", type = "ok")
     return()
       }
-Dates=as.character(time(Price))
-infile=data.frame(Dates,unclass(Price[,x]))
-
-.iClickPrice(infile)
+#Dates=as.character(time(Price))
+#infile=data.frame(Dates,unclass(Price[,x]))
+#    infile=Price[,x]
+#.iClickPrice(infile)
+    iClick::iClick.VisAssetPrice(Price[,x])
 
 }
   tkgrid(.getFrame(xBox), sticky="nw")

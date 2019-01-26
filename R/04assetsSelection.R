@@ -1,7 +1,3 @@
-.readme4Selection <- function() {
-cat("\n","1. Assets Selection here is basically based on Sharpe ratio inequality. The method is designed for Internaitonal Asset Selection, interested readers please refer to Bekaert and Hodrick(2009),International Financial Management,PP.466-468. We provide more performance indices based on the R package PerformanceAnalytics.","\n","2. To use this tool, you must have a multivariate time series dataset with R format, xts is most encourgaed; and the file is saved in .RData or .rda. Users may ude the dataset world20.rda located in the data directory of this package, detail is explained in the manual.","\n","3.  If the loaded data is price, then you have to pull down the menu and choose Transform Price Data, else, Load Returns Data","\n")
-}
-
 .getReturns4Selection <- function(){
   if ("PerformanceAnalytics" %in% (.packages())) {print("package PerformanceAnalytics is loaded")} else {
     eval(parse( text="library(PerformanceAnalytics)"))}
@@ -17,6 +13,23 @@ cat("\n","1. Assets Selection here is basically based on Sharpe ratio inequality
   assign("retAS", dat, envir = .JFEEnv)
   #  .evalCmdChunk("summary(dat)")
   cat("Returns data is imported sucessfully","\n")
+  print(tail(dat,2));print(head(dat,2))
+  cat("\n")
+}
+
+.getRawData4Selection <- function() {
+  name <- tclvalue(tkgetOpenFile(
+
+    filetypes = "{ {RData Files} {.RData}  {.rda}} { {All Files} * }"))
+  if (name == "")
+    return(data.frame())
+  temp=print(load(name))
+  dat=eval(parse(text=temp))
+  assign("retAS", dat, envir = .JFEEnv)
+
+  importedFileName=last(unlist(strsplit(name,"/")))
+  assign("importedFileName", importedFileName, envir = .JFEEnv)
+  print(paste("You are loading ",importedFileName,sep=" "))
   print(tail(dat,2));print(head(dat,2))
   cat("\n")
 }
@@ -147,7 +160,7 @@ cat("\n","1. Assets Selection here is basically based on Sharpe ratio inequality
         x=eval(parse(text=transForm))
       }
 
-    output=.sharpeIneq(x,home,removal,index,Rf,MAR,Rb,splitDate)
+    output = .sharpeIneq(x,home,removal,index,Rf,MAR,Rb,splitDate)
   }
 
   tkgrid(.getFrame(xBox),.getFrame(xBoxNo), .getFrame(xBoxRb), sticky="n")

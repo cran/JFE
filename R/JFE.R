@@ -8,7 +8,7 @@ tkwm.title(window, "JFE simplies data analytics for Just Finance and Econometric
 tkwm.geometry(window, "+150+150")
 
 menuBar <- tkmenu(window)
-tkconfigure(window, menu = menuBar, width=650, height=100)
+tkconfigure(window, menu = menuBar, width=700, height=100)
 
 #1.
 fileMenu <- tkmenu(menuBar)
@@ -40,12 +40,12 @@ tkadd(priceMenu, "command", label="Advanced Visualization", command =.iClickPric
 #3. Returns
 returnsMenu <- tkmenu(menuBar)
 tkadd(menuBar,"cascade",label="Returns Analytics", menu=returnsMenu)
-tkadd(returnsMenu,"command", label = "Transform Price Data",command = function() {
+tkadd(returnsMenu,"command", label = "Price data: Load then Transform",command = function() {
         dir_name <- tkchooseDirectory()
         if(nchar(dir_name <- as.character(dir_name)))
      setwd(dir_name)
      .getReturns()})
-tkadd(returnsMenu,"command", label = "Load Returns Data",command = function() {
+tkadd(returnsMenu,"command", label = "Returns data: Just Load",command = function() {
      dir_name <- tkchooseDirectory()
      if(nchar(dir_name <- as.character(dir_name)))
      setwd(dir_name)
@@ -59,22 +59,21 @@ tkadd(returnsMenu, "command", label="Dependency plots", command =.acfPlots)
 tkadd(returnsMenu, "command", label="Four QQ plots", command =.QQPlot)
 tkadd(returnsMenu, "command", label="NIG triangle", command =.nigTriangle)
 tkadd(returnsMenu, "command", label="Box plot", command =.ReturnsBoxPlots)
-tkadd(returnsMenu, "command", label="Advanced Visualization", command =.iClickReturn)
+tkadd(returnsMenu, "command", label="Advanced Visualization", command =.iClickReturn_Menu)
 
 #4. Assets selections
 assetSelectionMenu <- tkmenu(menuBar)
 tkadd(menuBar,"cascade",label="Assets Selection", menu=assetSelectionMenu)
-#tkadd(assetSelectionMenu,"command", label = "Read Me",command = .readme4Selection)
-tkadd(assetSelectionMenu, "command", label="Transform Price Data",command = function() {
+tkadd(assetSelectionMenu, "command", label="Price Data: Load and Transform",command = function() {
         dir_name <- tkchooseDirectory()
         if(nchar(dir_name <- as.character(dir_name)))
      setwd(dir_name)
      .getReturns4Selection()})
-tkadd(assetSelectionMenu,"command", label = "Load Returns Data",command = function() {
+tkadd(assetSelectionMenu,"command", label = "Returns data: Just Load",command = function() {
         dir_name <- tkchooseDirectory()
         if(nchar(dir_name <- as.character(dir_name)))
      setwd(dir_name)
-     .getRawData()})
+        .getRawData4Selection()})
 tkadd(assetSelectionMenu,"command", label = "Change dataset in this Dir",command = .getReturns4Selection)
 tkadd(assetSelectionMenu, "command", label= "Assets Selection by Performance Index", command =.sharpeIneqMenu)
 
@@ -82,55 +81,52 @@ tkadd(assetSelectionMenu, "command", label= "Assets Selection by Performance Ind
 #5.Backtesting
 backtestMenu <- tkmenu(menuBar)
 tkadd(menuBar,"cascade",label="Portfolio Backtesting", menu=backtestMenu)
-#tkadd(backtestMenu,"command", label = "Read Me",command = .readme4backtesting)
-tkadd(backtestMenu, "command", label="Transform Price Data",command = function() {
+tkadd(backtestMenu, "command", label="Price data: Load and Transform",command = function() {
   dir_name <- tkchooseDirectory()
   if(nchar(dir_name <- as.character(dir_name)))
     setwd(dir_name)
   .getReturns4backtesting()})
 
-tkadd(backtestMenu,"command", label = "Load Returns Data",command = function() {
+tkadd(backtestMenu,"command", label = "Returns data: Just Load",command = function() {
         dir_name <- tkchooseDirectory()
         if(nchar(dir_name <- as.character(dir_name)))
      setwd(dir_name)
-     .getRawData()})
+        .getRawData4backtesting()})
 
 tkadd(backtestMenu,"command", label = "Change dataset in this Dir",command = .getReturns4backtesting)
-
 tkadd(backtestMenu, "command", label= "Backtesting", command =.backtestingMenu)
-
 tkadd(backtestMenu, "command", label= "Backtesting All in One", command =.iClickBacktesting_Menu)
 
-# 6. High Frequency
-HFMenu <- tkmenu(menuBar)
-tkadd(menuBar,"cascade",label="highFreq", menu=HFMenu)
-tkadd(HFMenu,"command", label = "Load Raw data",command = function() {
-        dir_name <- tkchooseDirectory()
-        if(nchar(dir_name <- as.character(dir_name)))
-     setwd(dir_name)
-     .getRawData()})
-tkadd(HFMenu,"command", label = "Transform Price Data",command = function() {
-        dir_name <- tkchooseDirectory()
-        if(nchar(dir_name <- as.character(dir_name)))
-     setwd(dir_name)
-     .getReturns4backtesting()})
+# 6. GARCH
+garchMenu <- tkmenu(menuBar)
+tkadd(menuBar,"cascade",label="GARCH", menu=garchMenu)
 
-#tkadd(performanceMenu, "command", label="Performance index", command =.performanceIndexMenu)
+tkadd(garchMenu,"command", label = "Price data: Load then Transform",command = function() {
+  dir_name <- tkchooseDirectory()
+  if(nchar(dir_name <- as.character(dir_name)))
+    setwd(dir_name)
+  .getReturns4GARCH()})
+tkadd(garchMenu,"command", label = "Returns data: Just Load",command = function() {
+  dir_name <- tkchooseDirectory()
+  if(nchar(dir_name <- as.character(dir_name)))
+    setwd(dir_name)
+  .getRawData4GARCH()})
+tkadd(garchMenu, "command", label="GARCH", command =.garchMenu)
 
 
 #7. Predictive Modelling
 PMMenu <- tkmenu(menuBar)
 tkadd(menuBar,"cascade",label="PredictiveModelling", menu=PMMenu)
-tkadd(PMMenu,"command", label = "Load Raw data",command = function() {
+tkadd(PMMenu,"command", label = "Price data: Load then Transform",command = function() {
         dir_name <- tkchooseDirectory()
         if(nchar(dir_name <- as.character(dir_name)))
      setwd(dir_name)
-     .getRawData()})
-tkadd(PMMenu,"command", label = "Transform Price Data",command = function() {
+        .getReturns4GARCH()})
+tkadd(PMMenu,"command", label = "Returns data: Just Load",command = function() {
         dir_name <- tkchooseDirectory()
         if(nchar(dir_name <- as.character(dir_name)))
      setwd(dir_name)
-     .getReturns4backtesting()})
+        .getRawData4GARCH()})
 
 
 

@@ -42,11 +42,11 @@ tkpack(okButton, side = "left",fill = "x",ipady=2)
 quitCMD <- function(){
     tkdestroy(top)
 }
-    
+
 quitButton<-tkbutton(buttonsFrame, text = "Quit", command = quitCMD, anchor = "center",relief="ridge",width = "8")
-tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold")) 
+tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold"))
 tkpack(quitButton, side = "left",fill = "x",ipady=2)
-tkfocus(top)  
+tkfocus(top)
 }
 
 
@@ -81,9 +81,9 @@ tkpack(okButton, side = "left",fill = "x",ipady=2)
 quitCMD <- function(){
     tkdestroy(top)
 }
-    
+
 quitButton<-tkbutton(buttonsFrame, text = "Quit", command = quitCMD, anchor = "center",relief="ridge",width = "8")
-tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold")) 
+tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold"))
 tkpack(quitButton, side = "left",fill = "x",ipady=2)
 
 tkfocus(top)
@@ -119,12 +119,12 @@ tkpack(okButton, side = "left",fill = "x",ipady=2)
 quitCMD <- function(){
     tkdestroy(top)
 }
-    
+
 quitButton<-tkbutton(buttonsFrame, text = "Quit", command = quitCMD, anchor = "center",relief="ridge",width = "8")
-tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold")) 
+tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold"))
 tkpack(quitButton, side = "left",fill = "x",ipady=2)
 
-tkfocus(top)  
+tkfocus(top)
 }
 
 
@@ -158,9 +158,9 @@ tkpack(okButton, side = "left",fill = "x",ipady=2)
 quitCMD <- function(){
     tkdestroy(top)
 }
-    
+
 quitButton<-tkbutton(buttonsFrame, text = "Quit", command = quitCMD, anchor = "center",relief="ridge",width = "8")
-tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold")) 
+tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold"))
 tkpack(quitButton, side = "left",fill = "x",ipady=2)
 
 tkfocus(top)
@@ -197,12 +197,12 @@ tkpack(okButton, side = "left",fill = "x",ipady=2)
 quitCMD <- function(){
     tkdestroy(top)
 }
-    
+
 quitButton<-tkbutton(buttonsFrame, text = "Quit", command = quitCMD, anchor = "center",relief="ridge",width = "8")
-tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold")) 
+tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold"))
 tkpack(quitButton, side = "left",fill = "x",ipady=2)
 
-tkfocus(top)  
+tkfocus(top)
 }
 
 .QQPlot <- function(){
@@ -239,12 +239,12 @@ tkpack(okButton, side = "left",fill = "x",ipady=2)
 quitCMD <- function(){
     tkdestroy(top)
 }
-    
+
 quitButton<-tkbutton(buttonsFrame, text = "Quit", command = quitCMD, anchor = "center",relief="ridge",width = "8")
-tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold")) 
+tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold"))
 tkpack(quitButton, side = "left",fill = "x",ipady=2)
 
-tkfocus(top)  
+tkfocus(top)
 }
 
 
@@ -283,12 +283,12 @@ tkpack(okButton, side = "left",fill = "x",ipady=2)
 quitCMD <- function(){
     tkdestroy(top)
 }
-    
+
 quitButton<-tkbutton(buttonsFrame, text = "Quit", command = quitCMD, anchor = "center",relief="ridge",width = "8")
-tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold")) 
+tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold"))
 tkpack(quitButton, side = "left",fill = "x",ipady=2)
 
-tkfocus(top)  
+tkfocus(top)
 }
 
 
@@ -321,24 +321,14 @@ tkpack(okButton, side = "left",fill = "x",ipady=2)
 quitCMD <- function(){
     tkdestroy(top)
 }
-    
+
 quitButton<-tkbutton(buttonsFrame, text = "Quit", command = quitCMD, anchor = "center",relief="ridge",width = "8")
-tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold")) 
+tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold"))
 tkpack(quitButton, side = "left",fill = "x",ipady=2)
 
-tkfocus(top)  
+tkfocus(top)
 }
 
-
-
-
-
-
-.iClickReturn <- function(dataz){
-Returns=dataz
-#print(head(Returns))
-iClick::iClick.VisOneReturns(Returns)
-}
 
 .iClickReturn_Menu <- function() {
 
@@ -355,14 +345,10 @@ onOK <- function(){
    tkmessageBox(message = "You must select a variable.", icon = "error", type = "ok")
     return()
       }
-Dates=as.character(time(retDF[,x]))
-infile=na.omit(data.frame(Dates=Dates,ret=as.numeric(retDF[,x])))
-print(head(infile))
-.iClickReturn(infile)
-
+iClick::iClick.VisOneReturns(retDF[,x])
 }
   tkgrid(.getFrame(xBox), sticky="nw")
-  
+
 
 
   buttonsFrame <- tkframe(top,width=250)
@@ -384,3 +370,4 @@ tkpack(quitButton, side = "left",fill = "x",ipady=2)
 
 tkfocus(top)
 }
+

@@ -1,9 +1,9 @@
 Package: JFE
 Type: Package
-Title: A Menu-Driven GUI for Data Analysis of Just Finance and
+Title: A Menu-Driven GUI for Analyzing Data of Just Finance and
         Econometrics
-Version: 1.3
-Date: 2018-11-12
+Version: 2.0
+Date: 2019-01-26
 Author: Ho Tsung-wu
 Maintainer: Ho Tsung-wu <tsungwu@ntnu.edu.tw>
 Description: Support the decision analysis of international assets selection and portfolio backtesting.
@@ -12,9 +12,9 @@ LazyData: TRUE
 LazyLoad: yes
 Depends: R (>= 2.10),fPortfolio,xts
 Imports: BurStFin, fAssets, fBasics, iClick, MASS,
-        PerformanceAnalytics, quantmod, tcltk, tcltk2, timeDate,
-        timeSeries
+        PerformanceAnalytics, quantmod, rugarch, tcltk, tcltk2,
+        timeDate, timeSeries
 NeedsCompilation: no
-Packaged: 2018-11-12 01:25:13 UTC; tsungwu
+Packaged: 2019-01-26 11:28:06 UTC; tsungwu
 Repository: CRAN
-Date/Publication: 2018-11-14 08:30:02 UTC
+Date/Publication: 2019-01-26 11:50:03 UTC
