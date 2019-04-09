@@ -197,7 +197,7 @@ tkfocus(top)
     b <- tclvalue(endVariable)
 
     dataz=Price[paste(a,b,sep="/")]
-    transForm=paste("xts::to.",FREQtype,"(dataz)",sep="")
+    transForm=paste0("xts::to.",FREQtype,"(dataz)")
     x=eval(parse(text=transForm))
 
     NAMES=paste(importedFileName,FREQtype,sep=" by ")

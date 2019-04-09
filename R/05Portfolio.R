@@ -1,4 +1,7 @@
 .getReturns4backtesting <- function() {
+  if ("fPortfolio" %in% (.packages())) {print("package fPortfolio is loaded")} else {
+    eval(parse( text="library(fPortfolio)"))}
+
   name <- tclvalue(tkgetOpenFile(
     filetypes = "{ {RData Files} {.RData} } { {All Files} * }"))
   if (name == "")
@@ -14,6 +17,11 @@
 }
 
 .getRawData4backtesting <- function() {
+
+  if ("fPortfolio" %in% (.packages())) {print("package fPortfolio is loaded")} else {
+    eval(parse( text="library(fPortfolio)"))}
+
+
   name <- tclvalue(tkgetOpenFile(
 
     filetypes = "{ {RData Files} {.RData}  {.rda}} { {All Files} * }"))
@@ -50,7 +58,7 @@
 
   mySpec = portfolioSpec()
 
-  setType(mySpec)=Type
+  suppressMessages(setType(mySpec) <- Type)
   setEstimator(mySpec)=COV
   setRiskFreeRate(mySpec) <- as.numeric(Rf)
 
@@ -326,7 +334,7 @@ plotsVariable <- plotsVariable
 
   if (Type=="MV") {
     mySpec1 = portfolioSpec()
-    setType(mySpec1)=Type
+    suppressMessages(setType(mySpec1) <- Type)
     setRiskFreeRate(mySpec1) <- as.numeric(Rf)
     #setSolver(mySpec1)= "solveRquadprog"
 
@@ -343,7 +351,7 @@ plotsVariable <- plotsVariable
 
     OUT.GMVP=list()
     mySpec2 = portfolioSpec()
-    setType(mySpec2)=Type
+    suppressMessages(setType(mySpec2) <- Type)
     setRiskFreeRate(mySpec2) <- as.numeric(Rf)
     for (i in 1:length(COV)){
       setEstimator(mySpec2)=COV[i]
@@ -357,7 +365,7 @@ plotsVariable <- plotsVariable
 
   } else if (Type=="CVaR") {
     mySpec3 = portfolioSpec()
-    setType(mySpec3)=Type
+    suppressMessages(setType(mySpec3) <- Type)
     setRiskFreeRate(mySpec3) <- as.numeric(Rf)
     setSolver(mySpec3)= "solveRglpk.CVAR"
     OUT.tangency=list()
@@ -372,7 +380,7 @@ plotsVariable <- plotsVariable
     }
 
     mySpec4 = portfolioSpec()
-    setType(mySpec4)= Type
+    suppressMessages(setType(mySpec4) <- Type)
     setRiskFreeRate(mySpec4) <- as.numeric(Rf)
     setSolver(mySpec4)= "solveRglpk.CVAR"
     OUT.GMVP=list()

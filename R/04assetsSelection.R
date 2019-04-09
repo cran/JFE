@@ -1,6 +1,4 @@
 .getReturns4Selection <- function(){
-  if ("PerformanceAnalytics" %in% (.packages())) {print("package PerformanceAnalytics is loaded")} else {
-    eval(parse( text="library(PerformanceAnalytics)"))}
 
   name <- tclvalue(tkgetOpenFile(
     filetypes = "{ {RData Files} {.RData}  } { {All Files} * }"))
@@ -18,6 +16,7 @@
 }
 
 .getRawData4Selection <- function() {
+
   name <- tclvalue(tkgetOpenFile(
 
     filetypes = "{ {RData Files} {.RData}  {.rda}} { {All Files} * }"))
@@ -71,16 +70,16 @@
 
   rho=as.data.frame(cor(homeAsset,foreign))
   if(index=="StdDev"){
-    left=PerformanceAnalytics::SharpeRatio(foreign,Rf,FUN="StdDev")
-    right=PerformanceAnalytics::SharpeRatio(homeAsset,Rf,FUN="StdDev")
+    left=SharpeRatio(foreign,Rf,FUN="StdDev")
+    right=SharpeRatio(homeAsset,Rf,FUN="StdDev")
   }
   else if(index=="VaR"){
-    left=PerformanceAnalytics::SharpeRatio(foreign,Rf,FUN="VaR")
-    right=PerformanceAnalytics::SharpeRatio(homeAsset,Rf,FUN="VaR")
+    left=SharpeRatio(foreign,Rf,FUN="VaR")
+    right=SharpeRatio(homeAsset,Rf,FUN="VaR")
   }
   else if(index=="ES"){
-    left=PerformanceAnalytics::SharpeRatio(foreign,Rf,FUN="ES")
-    right=PerformanceAnalytics::SharpeRatio(homeAsset,Rf,FUN="ES")
+    left=SharpeRatio(foreign,Rf,FUN="ES")
+    right=SharpeRatio(homeAsset,Rf,FUN="ES")
   }
   else {
   left=eval(parse(text=index))(foreign,Rf)
@@ -102,18 +101,18 @@
   print(as.character(Selected))
 
   if (index=="StdDev"||index=="VaR"||index=="ES"){
-  Performance=PerformanceAnalytics::SharpeRatio(portfolioReturns,Rf,FUN=index)
+  Performance=SharpeRatio(portfolioReturns,Rf,FUN=index)
   cat("\n",paste("Performance by Sharpe ratio with", index,"is"),Performance ,"\n")
   Title=paste("Performance by Sharpe ratio with", index)
   } else {
-
-  Performance=eval(parse(text=index))(portfolioReturns,Rf)
+FUNCTION=match.fun(index)
+  Performance=FUNCTION(portfolioReturns,Rf)
   print(paste("Performance by",  index)); print(Performance)
   cat("\n",paste("Performance by",  index,"is"),Performance ,"\n")
   Title=paste("Performance by ", index)
 }
     cat("\n","Table of Annualized Returns is","\n")
-    print(PerformanceAnalytics::table.AnnualizedReturns(as.xts(portfolioReturns)))
+    print(table.AnnualizedReturns(as.xts(portfolioReturns)))
 
   ###===== Plotting
   bench=timeSeries::as.timeSeries(target[(T0+1):nrow(datx)])
@@ -156,8 +155,8 @@
     splitDate <- tclvalue(splitVariable )
     if (FREQtype=="daily"){
       x=retAS } else {
-        transForm=paste("timeSeries::",FREQtype,"(retAS)",sep="")
-        x=eval(parse(text=transForm))
+        transForm=paste0("xts::to.",FREQtype,"(retAS,OHLC = FALSE)")
+        x=base::eval(parse(text=transForm))
       }
 
     output = .sharpeIneq(x,home,removal,index,Rf,MAR,Rb,splitDate)
@@ -169,13 +168,13 @@
    rightFrame <- tkframe(top)
 
 freqFrame <- tkframe(rightFrame)
-.radioButtons(top,name="freq", buttons=c("Daily", "Week", "Month"), values=c("daily", "daily2weekly", "daily2monthly"), labels=c("Default daily data", "Use weekly freq", "Use monthly freq"), title="Frequency Conversion")
+.radioButtons(top,name="freq", buttons=c("Daily", "Week", "Month"), values=c("daily", "weekly", "monthly"), labels=c("Default daily data", "Use weekly freq", "Use monthly freq"), title="Frequency Conversion")
 freqVariable <- freqVariable
 tkgrid(freqFrame,sticky="w")
 
 
 selectionFrame <- tkframe(rightFrame)
-.radioButtons(top,name="selection", buttons=c("StdDev", "VaR", "ES","AdjustedSharpeRatio","SharpeRatio.annualized", "BurkeRatio","KellyRatio","PainRatio","BernardoLedoitRatio","MartinRatio","MeanAbsoluteDeviation"), values=c("StdDev", "VaR", "ES","AdjustedSharpeRatio", "SharpeRatio.annualized","BurkeRatio","KellyRatio","PainRatio","BernardoLedoitRatio","MartinRatio","MeanAbsoluteDeviation"), labels=c("Sharpe By Std Dev.", "Sharpe By VaR","Sharpe By ES(CVaR)","Adjusted Sharpe", "Annualized Sharpe","Burke Ratio", "Kelly Ratio","Pain Ratio","Bernardo-Ledoit","Martin Ratio","Mean Absolute Deviation"), title="Performance Index")
+.radioButtons(top,name="selection", buttons=c("StdDev", "VaR", "ES","AdjustedSharpeRatio","SharpeRatio.annualized", "BurkeRatio","KellyRatio","PainRatio","MartinRatio"), values=c("StdDev", "VaR", "ES","AdjustedSharpeRatio", "SharpeRatio.annualized","BurkeRatio","KellyRatio","PainRatio","MartinRatio"), labels=c("Sharpe By Std Dev.", "Sharpe By VaR","Sharpe By ES(CVaR)","Adjusted Sharpe", "Annualized Sharpe","Burke Ratio", "Kelly Ratio","Pain Ratio","Martin Ratio"), title="Performance Index")
 selectionVariable <- selectionVariable
 tkgrid(selectionFrame,sticky="w")
 

@@ -3,5 +3,6 @@ import("fPortfolio","tcltk","tcltk2","xts")
 importFrom("grDevices", "dev.new","colorRampPalette")
 importFrom("graphics", "abline", "legend","lines","par","plot", "plot.new")
 importFrom("utils", "data","head","tail", "write.csv")
-importFrom("stats", "as.formula", "cor", "cov","time", "na.omit")
+importFrom("stats", "as.formula","coef", "cor", "cov","lm", "na.omit","quantile","residuals","sd","time","var")
 export("JFE")
+
