@@ -1,11 +1,14 @@
 \name{ActivePremium}
 \alias{ActivePremium}
-\alias{ActivePremium}
 
 \encoding{latin1}
 
 \title{Active Premium or Active Return}
 
+\description{
+The return on an investment's annualized return minus the benchmark's
+annualized return.
+}
 
 \usage{
 ActivePremium(Ra, Rb, scale = NA, ...)
@@ -21,10 +24,7 @@ ActivePremium(Ra, Rb, scale = NA, ...)
 \item{...}{any other passthru parameters to Return.annualized
 (e.g., \code{geometric=FALSE})}
 }
-\description{
-The return on an investment's annualized return minus the benchmark's
-annualized return.
-}
+
 \details{
 Active Premium = Investment's annualized return - Benchmark's annualized
 return.

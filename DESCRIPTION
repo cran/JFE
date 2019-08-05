@@ -2,18 +2,18 @@ Package: JFE
 Type: Package
 Title: Tools and GUI for Analyzing Data of Just Finance and
         Econometrics
-Version: 2.1.1
-Date: 2019-04-09
+Version: 2.1.3
+Date: 2019-08-05
 Author: Ho Tsung-wu
 Maintainer: Ho Tsung-wu <tsungwu@ntnu.edu.tw>
 Description: Support the analysis of global assets selection and portfolio backtesting, we also enhance the computation of some performance ratios of 'PerformanceAnalytics'.
 License: GPL (>= 2)
 LazyData: TRUE
 LazyLoad: yes
-Depends: R (>= 3.0),fPortfolio,xts
-Imports: BurStFin, fAssets, fBasics, iClick, MASS, quantmod, rugarch,
-        tcltk, tcltk2, timeDate, timeSeries, zoo
+Depends: R (>= 3.5),fPortfolio,xts
+Imports: BurStFin, fAssets, fBasics, FRAPO, iClick, MASS, quantmod,
+        rugarch, tcltk, tcltk2, timeDate, timeSeries, zoo
 NeedsCompilation: no
-Packaged: 2019-04-09 12:28:31 UTC; tsungwu
+Packaged: 2019-08-05 13:55:00 UTC; tsungwu
 Repository: CRAN
-Date/Publication: 2019-04-09 12:52:52 UTC
+Date/Publication: 2019-08-05 14:20:07 UTC

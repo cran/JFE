@@ -677,7 +677,7 @@ table.AnnualizedReturns <-function (R, scale = NA, Rf = 0, geometric = TRUE, dig
     freq = periodicity(R)
     if (freq$scale %in% c("minute","hourly")) {stop("Data frequency is too high")
     } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="weekly") {scale=52
-    } else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
+    } else if (freq$scale=="monthly") {scale=12} else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
   }
 
   for (column in 1:columns) {
@@ -710,7 +710,7 @@ Return.annualized <-function (R, scale = NA, geometric = TRUE) {
     if (is.na(scale)) {
       freq = periodicity(R)
       if (freq$scale %in% c("minute","hourly")) {stop("Data frequency is too high")
-      } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="weekly") {scale=52
+      } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="monthly") {scale=12} else if (freq$scale=="weekly") {scale=52
       } else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
     }
 

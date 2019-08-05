@@ -5,14 +5,13 @@
 
 \alias{assetReturns}
 
-
-\title{DJ 30 Assets Data Sets}
+\title{Assets Data Sets}
 
 \encoding{UTF-8}
 
 \description{
 
-    Example data sets.
+assetReturns contains DJ component stocks returns data.
 
 }
 
@@ -21,9 +20,6 @@
 data(assetReturns)
 }
 
-
-%\details{
-%}
 
 
 \value{
