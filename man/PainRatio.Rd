@@ -35,7 +35,7 @@ the drawdown since previous peak in period i
 \references{
 Carl Bacon, \emph{Practical portfolio performance measurement
 and attribution}, second edition 2008 p.91\cr
-See also package PerformanceAnalytics.
+See also package \code{PerformanceAnalytics}.
 }
 
 \author{

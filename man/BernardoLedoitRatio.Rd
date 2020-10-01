@@ -33,7 +33,7 @@ BernardoLedoitRatio(R=assetReturns)
 \references{
 Carl Bacon, \emph{Practical portfolio performance measurement
 and attribution}, second edition 2008 p.95.\cr
-See also package PerformanceAnalytics.
+See also package \code{PerformanceAnalytics}.
 }
 \author{
 Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.

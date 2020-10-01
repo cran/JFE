@@ -42,6 +42,13 @@ riskParityPortfolio <- function(data, covmat="cov",strategy="minrisk",Type="MV")
   Portfolio
 }
 
+
+
+
+
+
+
+
 riskOptimalPortfolio <- function(data, Type="AveDD",value) {
 
   dataUsed=timeSeries::as.timeSeries(data)

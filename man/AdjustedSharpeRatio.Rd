@@ -39,8 +39,8 @@ and attribution}, second edition 2008 p.99.\cr
 
 Pezier, Jaques and White, Anthony. 2006. The Relative Merits of Investable
 Hedge Fund Indices and of Funds of Hedge Funds in Optimal Passive Portfolios.
-\url{http://econpapers.repec.org/paper/rdgicmadp/icma-dp2006-10.htm}\cr
-See also package PerformanceAnalytics.
+Check \url{https://econpapers.repec.org/paper/rdgicmadp/icma-dp2006-10.htm} \cr
+See also package \code{PerformanceAnalytics}.
 }
 \seealso{
 \code{\link{SharpeRatio.annualized}}

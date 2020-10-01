@@ -40,7 +40,7 @@ the drawdown since previous peak in period i
 \references{
 Carl Bacon, \emph{Practical portfolio performance measurement
 and attribution}, second edition 2008 p.89, Becker, Thomas (2006) Zephyr Associates\cr
-See also package PerformanceAnalytics.
+See also package \code{PerformanceAnalytics}.
 }
 \author{
 Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.

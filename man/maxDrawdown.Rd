@@ -49,7 +49,7 @@ preferable.
 \references{
 Bacon, C. \emph{Practical Portfolio Performance Measurement and
 Attribution}. Wiley. 2004. p. 88 \cr
-See also package PerformanceAnalytics.
+See also package \code{PerformanceAnalytics}.
 }
 
 \author{

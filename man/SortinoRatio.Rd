@@ -49,7 +49,7 @@ customized to the objective of the investor.
 \references{
 Sortino, F. and Price, L. Performance Measurement in a Downside
 Risk Framework. \emph{Journal of Investing}. Fall 1994, 59-65.\cr
-See also package PerformanceAnalytics.
+See also package \code{PerformanceAnalytics}.
 }
 \seealso{
 \code{\link{SharpeRatio}} \cr \code{\link{DownsideDeviation}} \cr

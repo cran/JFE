@@ -1,5 +1,5 @@
 
-AdjustedSharpeRatio<-function(R,Rf = 0,FUN="StdDev", ...){
+AdjustedSharpeRatio <-function(R,Rf = 0,FUN="StdDev", ...){
   R=as.xts(R)
   freq = periodicity(R)
   if (freq$scale %in% c("minute","hourly")) {stop("Data frequency too high")

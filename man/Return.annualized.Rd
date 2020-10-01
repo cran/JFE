@@ -45,7 +45,7 @@ For simple returns (geometric=FALSE), the formula is:
 \references{
 Bacon, Carl. \emph{Practical Portfolio Performance Measurement
 and Attribution}. Wiley. 2004. p. 6\cr
-See also package PerformanceAnalytics.
+See also package \code{PerformanceAnalytics}.
 }
 
 \author{

@@ -52,7 +52,7 @@ should be preferred to the Calmar or Sterling Ratio.
 \references{
 Bacon, Carl. \emph{Practical Portfolio Performance Measurement
 and Attribution}. Wiley. 2004.\cr
-See also package PerformanceAnalytics.
+See also package \code{PerformanceAnalytics}.
 }
 \seealso{
 \code{\link{Return.annualized}}, \cr

@@ -39,7 +39,7 @@ returns.
 \references{
 Sharpe, W.F. The Sharpe Ratio,\emph{Journal of Portfolio
 Management},Fall 1994, 49-58.\cr
-See also package PerformanceAnalytics.
+See also package \code{PerformanceAnalytics}.
 }
 \seealso{
 \code{\link{InformationRatio}} \code{\link{TrackingError}}

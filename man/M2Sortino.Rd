@@ -39,7 +39,7 @@ M2Sortino(Ra, Rb, MAR=0)
 \references{
 Carl Bacon, \emph{Practical portfolio performance measurement
 and attribution}, second edition 2008 p.102-103\cr
-See aslo package PerformanceAnalytics.
+See aslo package \code{PerformanceAnalytics}.
 }
 \author{
 Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.

@@ -42,10 +42,10 @@ Equation:
 
 }
 \references{
-\url{http://en.wikipedia.org/wiki/Treynor_ratio},
+\url{https://en.wikipedia.org/wiki/Treynor_ratio},
 Carl Bacon, \emph{Practical portfolio performance measurement
 and attribution}, second edition 2008 p.77\cr
-See also package PerformanceAnalytics.
+See also package \code{PerformanceAnalytics}.
 }
 \seealso{
 \code{\link{SharpeRatio}} \code{\link{SortinoRatio}}

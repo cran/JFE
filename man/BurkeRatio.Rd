@@ -39,7 +39,7 @@ where \eqn{n} is the number of observations of the entire series, \eqn{d} is num
 \references{
 Carl Bacon, \emph{Practical portfolio performance measurement
 and attribution}, second edition 2008 p.90-91.\cr
-See aslo package PerformanceAnalytics.
+See aslo package \code{PerformanceAnalytics}.
 }
 \author{
 Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
