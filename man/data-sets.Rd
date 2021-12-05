@@ -21,13 +21,14 @@ assetReturns contains DJ component stocks returns data. macrodata contains US un
 \usage{
 data(assetReturns)
 data(macrodata)
+
 }
 
 
 
 \value{
 
-    an object of class \code{"xts"}.
+    assetReturns is a time series object of package \code{"xts"}; the others are time series objects of package \code{"timeSeries"}.
 
 }
 

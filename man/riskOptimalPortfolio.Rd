@@ -44,9 +44,9 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
 
 \examples{
 # Risk optimal portfolio takes time, example below is commented.
-data(LPP2005)
-Data <-  LPP2005[,1:6]#select 6 assets price
-Data.RET=returns(Data) # Transform into returns to compute VALUE below
+#data(LPP2005,package="fPortfolio")
+Data =  fPortfolio::LPP2005[,1:6]#select 6 assets price
+Data.RET=timeSeries::returns(Data) # Transform into returns to compute VALUE below
 #VALUE=abs(mean(drawdowns(apply(Data.RET,1,mean))))
 #output=riskOptimalPortfolio(Data,Type="AveDD",value=VALUE) # data input must be price.
 #show(output)

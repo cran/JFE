@@ -1,19 +1,20 @@
-ttsPlot <- function(object,which,vertical,main=NULL) {
-#
+ttsPlot <- function(object,which,vertical,main=NULL,xlab="Time",ylab="Value",col1="black",col2="red",type="o",ylim=NULL) {
+
   Sys.setlocale(category = "LC_ALL", locale = "English_United States.1252")
   t0=vertical+1
   newData=eval(parse(text=paste0("object$",which,"Data")))
   MAIN=paste0(toupper(object$method), ": ",which, " forecasts")
   if(is.null(main)) {main=MAIN}
+  if(is.null(ylim)) {ylim=range(newData)}
 
   test.start=as.character(timeSeries::time(newData))[t0]
 
 #  dev.new()
-  plot(newData[,1], col="black", type="o",ylim=range(newData),
-       xlab="Time",main=main,ylab="Value");grid()
+  plot(newData[,1], col=col1, type=type,ylim=ylim,main=main,
+       xlab=xlab,ylab=ylab);grid()
   abline(v=as.POSIXct(as.character(timeSeries::time(newData))[t0]),col="blue")
   text(as.POSIXct(as.character(timeSeries::time(newData))[t0-10]), max(newData)*0.8, test.start,col="blue")
-  lines(newData[,2], col="red", type="o",ylim=range(newData),ylab="",xlab="")
+  lines(newData[,2], col=col2, type=type,ylim=ylim,ylab="",xlab="")
   rug(as.vector(newData[,1]), ticksize = 0.01, side = 2, quiet = TRUE)
 }
 
@@ -24,8 +25,10 @@ ttsCaret<-function(y,x=NULL, method,train.end,arOrder=2,xregOrder=0,type,tuneLen
   Sys.setlocale(category = "LC_ALL", locale = "English_United States.1252")
 
 
-
-if ( nrow(y) != nrow(x) ) {stop("Variables must have the same rows.")} else {eval(parse( text="library(timeSeries)"))}
+  if (!is.null(x)) {
+    x=timeSeries::as.timeSeries(x)
+    if ( nrow(y) != nrow(x) ) {print("Variables must have the same rows.")}
+  }
 
 if (!timeSeries::is.timeSeries(y)) {stop("Data must be a timeSeries object.")}
 
@@ -80,7 +83,13 @@ if (p==0) {
 
   #4. Dummies for time features
   trend <- 1:nrow(DF)
+
+  if (timeSeries::isRegular(y)) {
   seasonDummy <- data.frame(forecast::seasonaldummy(as.ts(y)))
+  DF0 <- cbind(ar0,X,seasonDummy,trend)
+  } else {DF0 <- cbind(ar0,X,trend)}
+
+
 
   if (type=="trend") {DF<-cbind(DF,trend)} else if (type=="sesaon") {DF<-cbind(DF,seasonDummy)
   } else if (type=="both") {DF<-cbind(DF,trend,seasonDummy)
@@ -111,7 +120,7 @@ output=  caret::train(eq, data = trainData, method = "svmRadial",
   # Predict test data: Recursive Forecasts
 if (min(arOrder) == 0) {recursive.pred=static.pred} else {
 
-  DF0 <- cbind(ar0,X,seasonDummy,trend)
+
   ARX=window(DF0,start=end(trainData),end=end(testData))
 
   ar.names=names(ARX)[grep(names(ARX),pattern="^ar+")]
@@ -175,11 +184,20 @@ ttsAutoML <-function(y,x=NULL,train.end,arOrder=2,xregOrder=0,maxSecs=30) {
   invisible(h2o::h2o.no_progress()) # Turn off progress bars
 
   # Load libraries
-  if ( nrow(y) != nrow(x) ) {stop("Variables must have the same rows.")
-  } else {
-    eval(parse( text="library(magrittr)"))
-    eval(parse( text="library(timeSeries)"))
+
+  if (!is.null(x)) {
+      if ( nrow(y) != nrow(x) ) {stop("Variables must have the same rows.")
+      } else {
+#        eval(parse( text="library(magrittr)"))
+#        eval(parse( text="library(timeSeries)"))
+      }
+      } else {
+
+#        eval(parse( text="library(magrittr)"))
+#        eval(parse( text="library(timeSeries)"))
+
   }
+
 
   if (!timeSeries::is.timeSeries(y)) {stop("The data must be timeSeries object.")}
 
@@ -218,24 +236,16 @@ ttsAutoML <-function(y,x=NULL,train.end,arOrder=2,xregOrder=0,maxSecs=30) {
 
 
   if (is.null(x)) {X=datasetX} else {
-    L.ID=paste0("L",xregOrder)
 
+    L.ID=paste0("L",xregOrder)
     IDx=NULL
     for (i in L.ID) {IDx=c(IDx,grep(colNAMES,pattern=i))}
     X=datasetX[,IDx]
-  }
+
+    }
 
 
   colnames(y)="y"
-
-  #4. Dummies for time features
-#  trend <- 1:nrow(y)
-#  seasonDummy <- data.frame(forecast::seasonaldummy(as.ts(y)))
-
-#  if (type=="trend") {DF<-cbind(DF,trend)} else if (type=="sesaon") {DF<-cbind(DF,seasonDummy)
-#  } else if (type=="both") {DF<-cbind(DF,trend,seasonDummy)
-#  } else {DF <- DF}
-
 
   ### The beginning of autoML
 
@@ -243,10 +253,12 @@ ttsAutoML <-function(y,x=NULL,train.end,arOrder=2,xregOrder=0,maxSecs=30) {
 
   # Augment (adds data frame columns)
   suppressMessages(timeFeatures <- timetk::tk_augment_timeseries_signature(timeID))
-  data_tbl_aug=tibble::as_tibble(na.omit(data.frame(y,ar,X,timeFeatures))) #The first obs is lost
-  data_tbl_clean = dplyr::mutate_if(data_tbl_aug, is.ordered, ~ as.character(.) %>% as.factor)
-#  data_tbl_clean = tibble::as_tibble(na.omit(data.frame(y,ar,X,timeFeatures)))
-
+  dim(timeFeatures)
+  timeFeatures=as.data.frame(timeFeatures[,-1])
+  rownames(timeFeatures)=as.character(timeSeries::time(y))
+  timeFeatures=timeSeries::as.timeSeries(timeFeatures)
+  data_tbl_aug=tibble::as_tibble(na.omit(cbind(y,ar,timeFeatures))) #The first obs is lost
+  data_tbl_clean=data_tbl_aug
 
   dateID=as.character(as.Date(timeSeries::time(y)))[-1]
   data_tbl_clean=as.data.frame(data_tbl_clean)
@@ -302,12 +314,15 @@ ttsAutoML <-function(y,x=NULL,train.end,arOrder=2,xregOrder=0,maxSecs=30) {
   staticData=na.omit(cbind(actual,Pred.dm))
 
   #Recursive Prediction of test data
-  DF0=tibble::as_tibble(na.omit(data.frame(y,ar0,X, timeFeatures))) #Short of the first obs
-  DF0 = as.data.frame(dplyr::mutate_if(DF0, is.ordered, ~ as.character(.) %>% as.factor))
+
+  if (min(arOrder) == 0) {recursive.pred=static.pred} else {
+
+  DF0=tibble::as_tibble(na.omit(cbind(y,ar0,X, timeFeatures))) #Short of the first obs
+  DF0 = as.data.frame(DF0)
   rownames(DF0)=dateID
   DF0=timeSeries::as.timeSeries(DF0)
 
-  ARX = h2o::as.h2o(tibble::as_tibble(window(DF0,start=end(trainData),end=end(X))))
+  ARX = h2o::as.h2o(tibble::as_tibble(window(DF0,start=end(trainData),end=end(y))))
   ahead=nrow(ARX)
   ar.names=names(ARX)[grep(names(ARX),pattern="^ar+")]
   plags=length(ar.names)
@@ -331,17 +346,22 @@ ttsAutoML <-function(y,x=NULL,train.end,arOrder=2,xregOrder=0,maxSecs=30) {
       ARX[i+1,ar.names]=updates }} else {stop}
 
     dynPred=rbind(dynPred,as.numeric(as.matrix(y0)))
+#    Pred2.rm=as.matrix(dynPred[-1])
+    recursive.pred=as.matrix(dynPred[-1])
+  }
+#  recursive.pred=Pred2.rm
+
 
   }
-  Pred2.rm=as.matrix(dynPred[-1])
 
-  recursive.pred=Pred2.rm
+
+
   rownames(recursive.pred)=as.character(timeSeries::time(testData))
   colnames(recursive.pred)="Prediction"
   recursive.pred=timeSeries::as.timeSeries(recursive.pred)
 
 
-  Pred.rm=rbind(Pred1.dm,Pred2.rm)
+  Pred.rm=rbind(Pred1.dm,recursive.pred)
   rownames(Pred.rm)=dateID
   Pred.rm=timeSeries::as.timeSeries(Pred.rm)
   recursiveData=na.omit(cbind(actual,Pred.rm))
@@ -371,11 +391,20 @@ ttsAutoML <-function(y,x=NULL,train.end,arOrder=2,xregOrder=0,maxSecs=30) {
 
 
 ttsLSTM <- function (y,x=NULL,train.end,arOrder=2,xregOrder=0,type, memoryLoops=10){
-  if ( nrow(y) != nrow(x) ) {stop("Variables must have the same rows.")
+
+  if (!is.null(x)) {
+    if ( nrow(y) != nrow(x) ) {stop("Variables must have the same rows.")
+    } else {
+#      eval(parse( text="library(magrittr)"))
+#      eval(parse( text="library(timeSeries)"))
+    }
   } else {
-    eval(parse( text="library(magrittr)"))
-    eval(parse( text="library(timeSeries)"))
+
+#    eval(parse( text="library(magrittr)"))
+#    eval(parse( text="library(timeSeries)"))
+
   }
+
 
   if (!timeSeries::is.timeSeries(y)) {stop("The data must be timeSeries object.")}
 
@@ -427,7 +456,11 @@ ttsLSTM <- function (y,x=NULL,train.end,arOrder=2,xregOrder=0,type, memoryLoops=
 
   #4. Dummies for time features
   trend <- 1:nrow(y)
-  seasonDummy <- data.frame(forecast::seasonaldummy(as.ts(y)))
+  if (timeSeries::isRegular(y)) {
+    seasonDummy <- data.frame(forecast::seasonaldummy(as.ts(y)))
+    DF0 <- cbind(ar0,X,seasonDummy,trend)
+  } else {DF0 <- cbind(ar0,X,trend)}
+
 
   if (type=="trend") {DF<-cbind(DF,trend)} else if (type=="sesaon") {DF<-cbind(DF,seasonDummy)
   } else if (type=="both") {DF<-cbind(DF,trend,seasonDummy)
@@ -523,21 +556,25 @@ ttsLSTM <- function (y,x=NULL,train.end,arOrder=2,xregOrder=0,type, memoryLoops=
   ############################################
 
   #Predict test data
-  DF0 <- cbind(ar0,X,seasonDummy,trend)
+  if (min(arOrder) == 0) {recursive.pred=static.pred} else {
+
+
   ARX=window(DF0,start=end(trainData),end=end(testData))
   ar.names=names(ARX)[grep(names(ARX),pattern="^ar+")]
+  plags=length(ar.names)
 
   LY.names=names(testData)[grep(names(testData),pattern="^ar+")]
   LX.names=names(testData)[-grep(names(testData),pattern="^ar+")][-1]
-
-  plags=length(ar.names)
   ahead=nrow(ARX)
   rownames(ARX)=NULL
 
   dynPred=NULL
   for (i in 1:ahead) { #i=1
-    if (length(LX.names)==0) {x.test0 = array(data = ARX[i,LX.names], dim = c(nrow(ARX)-1,SHAPE, 5))
-    } else {
+
+    if (length(LX.names)==0 & length(LY.names)>0) {x.test0 = array(data = ARX[i,LY.names], dim = c(nrow(ARX)-1,SHAPE, 5))
+    } else if (length(LY.names)==0 & length(LX.names)>0) {x.test0 = array(data = ARX[i,LX.names], dim = c(nrow(ARX)-1,SHAPE, 5))
+
+    } else if (length(LX.names)>0 & length(LY.names)>0) {
       x.test0 = array(data = ARX[i,c(LY.names,LX.names)], dim = c(nrow(ARX)-1,SHAPE, 5))
     }
 
@@ -556,6 +593,10 @@ ttsLSTM <- function (y,x=NULL,train.end,arOrder=2,xregOrder=0,type, memoryLoops=
   #Pred2.rm=model %>% predict(x.test.new, batch_size = batch.size) %>% .[,1]
   Pred2.rm=dynPred[-1]
   recursive.pred=Pred2.rm
+
+  }
+
+
   # Calculate Accuracy
   recursive.Accuracy=as.matrix(forecast::accuracy(as.ts(Pred2.rm),x=as.ts(y.test)))
   recursive.Accuracy[,c(4,5,7)]=recursive.Accuracy[,c(4,5,7)]/100
@@ -574,7 +615,7 @@ ttsLSTM <- function (y,x=NULL,train.end,arOrder=2,xregOrder=0,type, memoryLoops=
               resursiveF=cbind(Actual=testData[,"y"],Prediction=recursive.pred),
               static.Accuracy=static.Accuracy,
               recursive.Accuracy=recursive.Accuracy,
-              method="LSTM",data=DF))
+              method="LSTM",data=newData))
 }
 
 

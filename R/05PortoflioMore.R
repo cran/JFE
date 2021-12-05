@@ -1,12 +1,13 @@
 riskParityPortfolio <- function(data, covmat="cov",strategy="minrisk",Type="MV") {
 
-    dataUsed0=timeSeries::as.timeSeries(data)
+  dataUsed0=timeSeries::as.timeSeries(data)
   COV=paste0(covmat, "Estimator")
   mySpec0 = portfolioSpec()
   setEstimator(mySpec0)=COV
   suppressMessages(setType(mySpec0) <- Type)
 
   if (strategy=="All Assets") {
+
     RiskParity <- FRAPO::PERC(match.fun(getEstimator(mySpec0))(dataUsed0)$Sigma)
     setWeights(mySpec0)=as.numeric(FRAPO::Weights(RiskParity)/100)
     Portfolio=feasiblePortfolio(dataUsed0, spec=mySpec0, constraints="LongOnly")

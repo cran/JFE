@@ -20,7 +20,7 @@ The time series of target variable, or the dependent variable, with \code{timeSe
   \item{x}{ The time series of input variables, or the independent variables, with \code{timeSeries} format.
 }
 
-  \item{method}{The train_model_list of \code{caret}. While using this, make sure that the method allows regression. Methods in c("svm","rf","rpart","gamboost","BstLm","bstSm","blackboost") are feasible.
+  \item{method}{The train_model_list of \code{caret}. While using this, make sure that the method allows regression. Methods in c("svm","rf","rpart","blasso","bridge","enet","gbm") are feasible.
 
 }
 

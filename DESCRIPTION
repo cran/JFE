@@ -2,20 +2,20 @@ Package: JFE
 Type: Package
 Title: Tools and GUI for Analyzing Time Series Data of Just Finance and
         Econometrics
-Version: 2.5.1
-Date: 2020-10-01
+Version: 2.5.2
+Date: 2021-12-05
 Author: Ho Tsung-wu
 Maintainer: Ho Tsung-wu <tsungwu@ntnu.edu.tw>
 Description: Support the analysis of financial and econometric time series, including recursive forecasts for machine learning.
 License: GPL (>= 2)
 LazyData: TRUE
 LazyLoad: yes
-Depends: R (>= 3.5),fPortfolio,xts
+Depends: R (>= 3.5),xts,fPortfolio
 Imports: caret, magrittr, tcltk, tcltk2, zoo
-Suggests: BurStFin, data.table, dplyr, DescTools, fAssets, fBasics,
-        forecast, FRAPO, h2o, iClick, keras, MASS, quantmod, rugarch,
-        tensorflow, tibble, timeDate, timeSeries, timetk,
+Suggests: BurStFin, data.table, DescTools, fAssets, fBasics, forecast,
+        FRAPO, h2o, iClick, keras, MASS, quantmod, rugarch, tensorflow,
+        tibble, timeDate, timeSeries, timetk,
 NeedsCompilation: no
-Packaged: 2020-10-01 09:08:01 UTC; tsungwu
+Packaged: 2021-12-05 04:23:09 UTC; badal
 Repository: CRAN
-Date/Publication: 2020-10-01 09:50:02 UTC
+Date/Publication: 2021-12-05 06:00:02 UTC

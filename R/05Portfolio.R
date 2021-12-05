@@ -1,6 +1,6 @@
 .getReturns4backtesting <- function() {
   if ("fPortfolio" %in% (.packages())) {print("package fPortfolio is loaded")} else {
-    eval(parse( text="library(fPortfolio)"))}
+    eval(parse(text="library(fPortfolio)"))}
 
   name <- tclvalue(tkgetOpenFile(
     filetypes = "{ {RData Files} {.RData} } { {All Files} * }"))
@@ -19,7 +19,7 @@
 .getRawData4backtesting <- function() {
 
   if ("fPortfolio" %in% (.packages())) {print("package fPortfolio is loaded")} else {
-    eval(parse( text="library(fPortfolio)"))}
+    eval(parse(text="library(fPortfolio)"))}
 
 
   name <- tclvalue(tkgetOpenFile(
@@ -448,7 +448,7 @@ plotsVariable <- plotsVariable
        dev.new; backtestPlot(OUT.tangency[[2]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        dev.new;  backtestPlot(OUT.tangency[[2]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new; backtestPlot(OUT.tangency[[2]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.tangency[[2]])
 
       smoothWeights = round(100*OUT.tangency[[2]]$smoothWeights,2)
@@ -467,10 +467,10 @@ plotsVariable <- plotsVariable
 
       if (plots=="simple") {
         par(mfrow=c(3,1))
-        dev.new; backtestPlot(OUT.tangency[[3]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.tangency[[3]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        dev.new; backtestPlot(OUT.tangency[[3]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.tangency[[3]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.tangency[[3]])
 
       smoothWeights = round(100*OUT.tangency[[3]]$smoothWeights,2)
@@ -488,10 +488,10 @@ plotsVariable <- plotsVariable
     if (type == 5) {
        if (plots=="simple") {
         par(mfrow=c(3,1))
-        dev.new; backtestPlot(OUT.tangency[[4]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.tangency[[4]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        dev.new; backtestPlot(OUT.tangency[[4]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.tangency[[4]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.tangency[[4]])
 
       smoothWeights = round(100*OUT.tangency[[4]]$smoothWeights,2)
@@ -510,10 +510,10 @@ plotsVariable <- plotsVariable
     if (type == 6) {
        if (plots=="simple") {
         par(mfrow=c(3,1))
-         dev.new; backtestPlot(OUT.tangency[[5]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+         dev.new;backtestPlot(OUT.tangency[[5]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        dev.new; backtestPlot(OUT.tangency[[5]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.tangency[[5]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.tangency[[5]])
 
       smoothWeights = round(100*OUT.tangency[[5]]$smoothWeights,2)
@@ -531,10 +531,10 @@ plotsVariable <- plotsVariable
     if (type == 7) {
       if (plots=="simple") {
         par(mfrow=c(3,1))
-        dev.new; backtestPlot(OUT.tangency[[6]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.tangency[[6]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        dev.new; backtestPlot(OUT.tangency[[6]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.tangency[[6]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.tangency[[6]])
 
       smoothWeights = round(100*OUT.tangency[[6]]$smoothWeights,2)
@@ -553,10 +553,10 @@ plotsVariable <- plotsVariable
     if (type == 8) {
         if (plots=="simple") {
         par(mfrow=c(3,1))
-        dev.new; backtestPlot(OUT.tangency[[7]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.tangency[[7]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        dev.new; backtestPlot(OUT.tangency[[7]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.tangency[[7]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.tangency[[7]])
 
       smoothWeights = round(100*OUT.tangency[[7]]$smoothWeights,2)
@@ -585,10 +585,10 @@ plotsVariable <- plotsVariable
     if (type == 11) {
       if (plots=="simple") {
         par(mfrow=c(3,1))
-        dev.new; backtestPlot(OUT.GMVP[[1]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.GMVP[[1]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        dev.new; backtestPlot(OUT.GMVP[[1]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.GMVP[[1]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.GMVP[[1]])
 
       smoothWeights = round(100*OUT.GMVP[[1]]$smoothWeights,2)
@@ -606,10 +606,10 @@ plotsVariable <- plotsVariable
     if (type == 12) {
         if (plots=="simple") {
         par(mfrow=c(3,1))
-        dev.new; backtestPlot(OUT.GMVP[[2]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.GMVP[[2]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        dev.new; backtestPlot(OUT.GMVP[[2]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.GMVP[[2]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.GMVP[[2]])
       smoothWeights = round(100*OUT.GMVP[[2]]$smoothWeights,2)
       ID=colnames(smoothWeights)
@@ -627,10 +627,10 @@ plotsVariable <- plotsVariable
 
       if (plots=="simple") {
         par(mfrow=c(3,1))
-        dev.new; backtestPlot(OUT.GMVP[[3]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.GMVP[[3]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        dev.new; backtestPlot(OUT.GMVP[[3]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.GMVP[[3]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.GMVP[[3]])
 
       smoothWeights = round(100*OUT.GMVP[[3]]$smoothWeights,2)
@@ -649,10 +649,10 @@ plotsVariable <- plotsVariable
 
       if (plots=="simple") {
         par(mfrow=c(3,1))
-        dev.new; backtestPlot(OUT.GMVP[[4]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.GMVP[[4]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        dev.new; backtestPlot(OUT.GMVP[[4]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.GMVP[[4]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.GMVP[[4]])
 
       smoothWeights = round(100*OUT.GMVP[[4]]$smoothWeights,2)
@@ -671,10 +671,10 @@ plotsVariable <- plotsVariable
 
       if (plots=="simple") {
         par(mfrow=c(3,1))
-        dev.new; backtestPlot(OUT.GMVP[[5]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.GMVP[[5]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        dev.new; backtestPlot(OUT.GMVP[[5]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.GMVP[[5]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.GMVP[[5]])
 
       smoothWeights = round(100*OUT.GMVP[[5]]$smoothWeights,2)
@@ -693,10 +693,10 @@ plotsVariable <- plotsVariable
 
         if (plots=="simple") {
         par(mfrow=c(3,1))
-        dev.new; backtestPlot(OUT.GMVP[[6]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.GMVP[[6]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        dev.new; backtestPlot(OUT.GMVP[[6]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.GMVP[[6]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.GMVP[[6]])
       smoothWeights = round(100*OUT.GMVP[[6]]$smoothWeights,2)
       ID=colnames(smoothWeights)
@@ -714,10 +714,10 @@ plotsVariable <- plotsVariable
 
         if (plots=="simple") {
         par(mfrow=c(3,1))
-        dev.new; backtestPlot(OUT.GMVP[[7]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.GMVP[[7]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        dev.new; backtestPlot(OUT.GMVP[[7]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.GMVP[[7]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.GMVP[[7]])
       smoothWeights = round(100*OUT.GMVP[[7]]$smoothWeights,2)
       ID=colnames(smoothWeights)
