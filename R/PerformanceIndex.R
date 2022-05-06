@@ -1,5 +1,4 @@
-
-AdjustedSharpeRatio <-function(R,Rf = 0,FUN="StdDev", ...){
+AdjustedSharpeRatio <-function(R,Rf = 0,FUN="StdDev"){
   R=as.xts(R)
   freq = periodicity(R)
   if (freq$scale %in% c("minute","hourly")) {stop("Data frequency too high")
@@ -17,7 +16,7 @@ AdjustedSharpeRatio <-function(R,Rf = 0,FUN="StdDev", ...){
 }
 
 
-SharpeRatio <- function(R, Rf = 0, alpha=0.05,FUN="StdDev", annualize=FALSE,...) {
+SharpeRatio <- function(R, Rf = 0, alpha=0.05,FUN="StdDev", annualize=FALSE) {
 
   R=as.xts(R)
   if (annualize) {
@@ -77,7 +76,7 @@ SharpeRatio.annualized <-function(R, Rf = 0, alpha=0.05,scale = NA, geometric = 
 }
 
 
-PainRatio <- function (R, Rf = 0, ...) {
+PainRatio <- function (R, Rf = 0) {
 
 
   .painRatio <- function(R, Rf=Rf) {
@@ -99,7 +98,7 @@ PainRatio <- function (R, Rf = 0, ...) {
 }
 
 
-BurkeRatio <- function (R, Rf = 0, modified = FALSE, ...) {
+BurkeRatio <- function (R, Rf = 0, modified = FALSE) {
   drawdown = c()
   R0 <- R
 
@@ -107,10 +106,10 @@ BurkeRatio <- function (R, Rf = 0, modified = FALSE, ...) {
     number_drawdown = 0
     in_drawdown = FALSE
     peak = 1
-    period = .Frequency(R) 
+    period = .Frequency(R)
     R=as.numeric(R)
     n = length(R)
-  
+
     for (i in (2:length(R))) {
       if (R[i] < 0) {
         if (!in_drawdown) {
@@ -152,7 +151,7 @@ BurkeRatio <- function (R, Rf = 0, modified = FALSE, ...) {
 
 
   R = na.omit(as.xts(R))
-  result = apply(R, MARGIN = 2, .burkeRatio, Rf = Rf, modified = modified, ...)
+  result = apply(R, MARGIN = 2, .burkeRatio, Rf = Rf, modified = modified)
   result <- t(result)
   colnames(result) = colnames(R)
   if (modified) {
@@ -166,7 +165,7 @@ BurkeRatio <- function (R, Rf = 0, modified = FALSE, ...) {
 }
 
 
-MartinRatio<-function (R, Rf = 0, ...) {
+MartinRatio<-function (R, Rf = 0) {
 
   .martinRatio <- function(R, Rf = 0) {
     Period = .Frequency(R)
@@ -176,10 +175,10 @@ MartinRatio<-function (R, Rf = 0, ...) {
     Rp = (prod(1 + R))^(Period/length(R)) - 1
     result = (Rp - Rf)/UI
   }
-  
-  
+
+
   R = as.xts(na.omit(R))
-  result = sapply(R, .martinRatio, Rf = Rf, ...)
+  result = sapply(R, .martinRatio, Rf = Rf)
   result <- t(result)
   colnames(result) = colnames(R)
   rownames(result) = paste0("Martin Ratio (Rf = ", Rf, ")")
@@ -206,7 +205,7 @@ KellyRatio<- function (R, Rf = 0) {
 
 #-------------------------------------------------------------
 
-DRatio <- function (R, ...) {
+DRatio <- function (R) {
 
   .dRatio<-function(R) {
     R = as.numeric(R)
@@ -228,7 +227,7 @@ DRatio <- function (R, ...) {
 }
 
 
-SkewnessKurtosisRatio <- function (R, ...)
+SkewnessKurtosisRatio <- function (R)
 {
 
   .skewnessKurtosisRatio<-function(R) {
@@ -247,7 +246,7 @@ SkewnessKurtosisRatio <- function (R, ...)
 
 }
 
-PainIndex<- function (R, ...) {
+PainIndex<- function (R) {
 
   .pi <- function(R) {
     result = sum(abs(DrawdownPeak(R)))/nrow(R)
@@ -260,7 +259,7 @@ PainIndex<- function (R, ...) {
 }
 
 
-BernardoLedoitRatio<-function (R, ...) {
+BernardoLedoitRatio<-function (R) {
   R <- as.xts(R)
 
   .bernardoLedoitRatio<-function(R) {
@@ -271,7 +270,7 @@ BernardoLedoitRatio<-function (R, ...) {
     return(result)
   }
 
-  results = sapply(R, .bernardoLedoitRatio, ...)
+  results = sapply(R, .bernardoLedoitRatio)
   results <- t(results)
   colnames(results) = colnames(R)
   rownames(results) = "Bernardo and Ledoit ratio"
@@ -279,7 +278,7 @@ BernardoLedoitRatio<-function (R, ...) {
 
 }
 
-MeanAbsoluteDeviation<-function (R, ...) {
+MeanAbsoluteDeviation<-function (R) {
 
   .meanAbsoluteDeviation <- function(R) {
     R=as.matrix(R)
@@ -287,7 +286,7 @@ MeanAbsoluteDeviation<-function (R, ...) {
     return(result)
   }
   R=as.xts(R)
-  results = apply(R, MARGIN = 2, .meanAbsoluteDeviation,...)
+  results = apply(R, MARGIN = 2, .meanAbsoluteDeviation)
   results <- t(results)
   colnames(results) = colnames(R)
   rownames(results) = "Mean absolute deviation"
@@ -328,12 +327,12 @@ SterlingRatio <-function (R, scale = NA, excess = 0.1) {
 
 # ------------------------------------------------------------------------------
 AppraisalRatio <- function (Ra, Rb, Rf = 0, method = c("appraisal", "modified",
-                                                       "alternative"), ...) {
+                                                       "alternative")) {
   method = method[1]
 
   .appraisalRatio <-function(Ra, Rb, Rf = 0, method = method) {
 	Period=.Frequency(Ra)
-	numerator=CAPM.jensenAlpha(Ra, Rb, Rf, Period=Period)
+	numerator=CAPM.jensenAlpha(Ra, Rb, Rf)
 
     switch(method, appraisal = {
       epsilon = residuals(lm(Ra~Rb))
@@ -356,7 +355,7 @@ AppraisalRatio <- function (Ra, Rb, Rf = 0, method = c("appraisal", "modified",
   Ra = as.xts(Ra)
   Rb = as.xts(Rb)
 
-  result = sapply(Ra, .appraisalRatio, Rb = Rb, Rf = Rf, method = method, ...)
+  result = sapply(Ra, .appraisalRatio, Rb = Rb, Rf = Rf, method = method)
   result <- t(result)
   colnames(result) = colnames(Ra)
   switch(method, appraisal = {
@@ -426,7 +425,7 @@ InformationRatio<- function (Ra, Rb, scale = NA) {
   }
 }
 
-ActivePremium<-function (Ra, Rb, scale = NA, ...) {
+ActivePremium<-function (Ra, Rb, scale = NA) {
   Ra = as.xts(Ra)
   Rb = as.xts(Rb)
   if (is.na(scale)) {
@@ -497,7 +496,7 @@ TreynorRatio <- function (Ra, Rb, Rf = 0, scale = NA, modified = FALSE) {
 }
 
 
-DownsideDeviation <-function (R, MAR = 0, method = c("full","subset"), potential = FALSE, ...)
+DownsideDeviation <-function (R, MAR = 0, method = c("full","subset"), potential = FALSE)
 {
 
   method = method[1]
@@ -540,7 +539,7 @@ DownsideDeviation <-function (R, MAR = 0, method = c("full","subset"), potential
 }
 
 
-OmegaSharpeRatio <-function (R, MAR = 0, ...) {
+OmegaSharpeRatio <-function (R, MAR = 0) {
 
   .omegaSharpeRatio <- function(R, MAR = 0) {
 
@@ -561,7 +560,7 @@ OmegaSharpeRatio <-function (R, MAR = 0, ...) {
   }
 
   R = as.xts(R)
-  results = sapply(R, .omegaSharpeRatio, MAR = MAR,...)
+  results = sapply(R, .omegaSharpeRatio, MAR = MAR)
   results <- t(results)
   colnames(results) = colnames(R)
   rownames(results) = paste0("OmegaSharpeRatio (MAR = ", MAR, "%)")
@@ -569,10 +568,10 @@ OmegaSharpeRatio <-function (R, MAR = 0, ...) {
 
 }
 
-SortinoRatio<- function (R, MAR = 0,...) {
+SortinoRatio<- function (R, MAR = 0) {
 
   .sortinoRatio <- function(R, MAR) {
-    SR = mean((R-MAR), na.rm = TRUE)/DownsideDeviation(R,MAR, ...)
+    SR = mean((R-MAR), na.rm = TRUE)/DownsideDeviation(R,MAR)
     SR
   }
   R = as.xts(R)
@@ -584,7 +583,7 @@ SortinoRatio<- function (R, MAR = 0,...) {
 }
 
 
-ProspectRatio <- function (R, MAR, ...) {
+ProspectRatio <- function (R, MAR) {
 
   .prospectRatio<-function(R, MAR) {
     n = nrow(R)
@@ -596,7 +595,7 @@ ProspectRatio <- function (R, MAR, ...) {
   }
 
   R <- as.xts(R)
-  result = sapply(R, .prospectRatio, MAR = MAR,...)
+  result = sapply(R, .prospectRatio, MAR = MAR)
   result <- t(result)
   colnames(result) = colnames(R)
   rownames(result) = paste0("Prospect ratio (MAR = ", MAR,"%)")
@@ -605,8 +604,7 @@ ProspectRatio <- function (R, MAR, ...) {
 }
 
 
-VolatilitySkewness<- function (R, MAR = 0, stat = c("volatility", "variability"),
-                               ...) {
+VolatilitySkewness<- function (R, MAR = 0, stat = c("volatility", "variability")) {
 
   stat = stat[1]
 
@@ -630,7 +628,7 @@ VolatilitySkewness<- function (R, MAR = 0, stat = c("volatility", "variability")
   }
 
   R = as.xts(R)
-  result = sapply(R, .volatilitySkewness, MAR = MAR,stat = stat, ...)
+  result = sapply(R, .volatilitySkewness, MAR = MAR,stat = stat)
   result <- t(result)
   colnames(result) = colnames(R)
   rownames(result) = paste0("VolatilitySkewness (MAR = ",MAR, "%, stat= ", stat, ")")
@@ -638,15 +636,15 @@ VolatilitySkewness<- function (R, MAR = 0, stat = c("volatility", "variability")
 
 }
 # ------------------------------------------------------------------------------
-M2Sortino <- function (Ra, Rb, MAR = 0, ...) {
+M2Sortino <- function (Ra, Rb, MAR = 0) {
 
 
-  .m2Sortino<-function(Ra, Rb, MAR = MAR, ...)  {
+  .m2Sortino<-function(Ra, Rb, MAR = MAR)  {
 
-    Period = .Frequency(Rb)
-    Rp = (prod(1 + Ra))^(Period/nrow(Ra)) - 1
-    SigmaD = DownsideDeviation(Ra, MAR) * sqrt(Period)
-    SigmaDM = DownsideDeviation(Rb, MAR) * sqrt(Period)
+    #Period = .Frequency(Rb)
+    Rp = (prod(1 + Ra))^(.Frequency(Rb)/nrow(Ra)) - 1
+    SigmaD = DownsideDeviation(Ra, MAR) * sqrt(.Frequency(Rb))
+    SigmaDM = DownsideDeviation(Rb, MAR) * sqrt(.Frequency(Rb))
     SR = SortinoRatio(Ra, MAR)
     result = Rp + SR * (SigmaDM - SigmaD)
 
@@ -655,7 +653,7 @@ M2Sortino <- function (Ra, Rb, MAR = 0, ...) {
   Ra = as.xts(Ra)
   Rb = as.xts(Rb)
 
-  results = sapply(Ra, .m2Sortino, Rb = Rb, MAR = MAR,...)
+  results = sapply(Ra, .m2Sortino, Rb = Rb, MAR = MAR)
   results <- t(results)
   colnames(results) = colnames(Ra)
   rownames(results) = paste0("M2Sortino (MAR = ", MAR, ")")
@@ -728,25 +726,22 @@ Return.annualized <-function (R, scale = NA, geometric = TRUE) {
 }
 
 
-
-
-
-CAPM.jensenAlpha<- function (Ra, Rb, Rf = 0, ...) {
+CAPM.jensenAlpha<- function (Ra, Rb, Rf = 0) {
 
   Ra = as.xts(Ra)
   Rb = as.xts(Rb)
 
-  .capmJensenAlpha <-function(Ra, Rb = Rb,Rf = Rf, ...) {
-    Period = .Frequency(Ra)
-    Rp = (prod(1 + Ra))^(Period/length(Ra)) - 1
-    Rpb = (prod(1 + Rb))^(Period/length(Rb)) - 1
+  .capmJensenAlpha <-function(Ra, Rb = Rb,Rf = Rf) {
+    #Period = .Frequency(Ra)
+    Rp = (prod(1 + Ra))^(.Frequency(Ra)/length(Ra)) - 1
+    Rpb = (prod(1 + Rb))^(.Frequency(Ra)/length(Rb)) - 1
     y=Ra-Rf
     x=Rb-Rf
     Beta=coef(lm(y~x))[2]
     result = Rp - Rf - Beta * (Rpb -Rf)
   }
 
-  result = sapply(Ra, .capmJensenAlpha, Rb = Rb,Rf = Rf, ...)
+  result = sapply(Ra, .capmJensenAlpha, Rb = Rb,Rf = Rf)
   result <- t(result)
   colnames(result) = colnames(Ra)
   rownames(result) = paste0("Jensen's Alpha (Risk free = ",Rf, ")")
@@ -757,7 +752,7 @@ CAPM.jensenAlpha<- function (Ra, Rb, Rf = 0, ...) {
 
 
 
-UlcerIndex <-function (R, ...) {
+UlcerIndex <-function (R) {
 
   .ui <- function(R) {
     result = sqrt(sum(DrawdownPeak(R)^2))
@@ -775,7 +770,7 @@ UlcerIndex <-function (R, ...) {
 
 
 
-DrawdownPeak <- function (R, ...) {
+DrawdownPeak <- function (R) {
 
   .drawdownpeak <- function(R) {
     R=as.numeric(R)
@@ -823,7 +818,7 @@ DrawdownPeak <- function (R, ...) {
 
 
 .UpsideRisk<-  function (R, MAR = 0, method = c("full", "subset"), stat = c("risk",
-                                                                           "variance", "potential"), ...)
+                                                                           "variance", "potential"))
 {
   method = method[1]
   stat = stat[1]
@@ -855,7 +850,7 @@ DrawdownPeak <- function (R, ...) {
   }
 
   R = as.xts(R)
-  results = sapply(R, .upsideRisk, MAR = MAR, method = method, stat = stat, ...)
+  results = sapply(R, .upsideRisk, MAR = MAR, method = method, stat = stat)
   results <- t(results)
   colnames(results) = colnames(R)
   rownames(results) = paste0("Upside Risk (MAR = ", MAR,"%)")
@@ -864,7 +859,8 @@ DrawdownPeak <- function (R, ...) {
 }
 
 
-.Drawdowns <- function (R, geometric = TRUE, ...) {
+
+.Drawdowns <- function (R, geometric = TRUE) {
   x = as.xts(R)
   columns = ncol(x)
   columnnames = colnames(x)
@@ -875,14 +871,15 @@ DrawdownPeak <- function (R, ...) {
     fx <- FUN(nx, ... = ...)
     if (is.vector(fx)) {
       result <- .xts(fx, .index(x), .indexCLASS = indexClass(x))
-    } else {
+    }
+    else {
       result <- merge(fx, .xts(, .index(x)))
     }
     return(result)
   }
 
 
-  .colDrawdown <- function(x, geometric) {
+  .colDrawdown <- function(x, geometric, ...) {
     if (geometric) { Return.cumulative = cumprod(1 + x)
     } else {Return.cumulative = 1 + cumsum(x)}
 
@@ -904,9 +901,9 @@ DrawdownPeak <- function (R, ...) {
 }
 
 
-maxDrawdown <-function (R, geometric = TRUE, invert = TRUE,...) {
+maxDrawdown <-function (R, geometric = TRUE, invert = TRUE) {
 
-  .maxdrawdown<-function(R, geometric = TRUE, invert = TRUE,...) {
+  .maxdrawdown<-function(R, geometric = TRUE, invert = TRUE) {
     drawdown = .Drawdowns(R, geometric = geometric)
     result = min(drawdown)
     if (invert)
@@ -915,7 +912,7 @@ maxDrawdown <-function (R, geometric = TRUE, invert = TRUE,...) {
   }
 
   R = na.omit(as.xts(R))
-  result = sapply(R, .maxdrawdown, geometric = geometric,invert = invert, ...)
+  result = sapply(R, .maxdrawdown, geometric = geometric,invert = invert)
   dim(result) = c(1, NCOL(R))
   colnames(result) = colnames(R)
   rownames(result) = "Worst Drawdown"
@@ -924,7 +921,7 @@ maxDrawdown <-function (R, geometric = TRUE, invert = TRUE,...) {
 }
 
 .Kurtosis<- function (R, na.rm = FALSE, method = c("excess", "moment", "fisher",
-                                                   "sample", "sampleExcess"), ...)
+                                                   "sample", "sampleExcess"))
 {
   method = method[1]
 
@@ -968,7 +965,7 @@ maxDrawdown <-function (R, geometric = TRUE, invert = TRUE,...) {
 
 
 
-.Skewness <-function (R, method = c("moment", "fisher", "sample"),...){
+.Skewness <-function (R, method = c("moment", "fisher", "sample")){
   method = method[1]
 
   .skewness<-function(x, method) {
@@ -1038,7 +1035,7 @@ maxDrawdown <-function (R, geometric = TRUE, invert = TRUE,...) {
     CVaR
   }
 
-.Frequency <- function (R, ...) {
+.Frequency <- function (R) {
   R = as.xts(R)
 
   .frequency <- function(R) {
@@ -1061,7 +1058,7 @@ maxDrawdown <-function (R, geometric = TRUE, invert = TRUE,...) {
       return(result)
     }
 
-    results = sapply(R, .frequency, ...)
+    results = sapply(R, .frequency)
     results <- t(results)
     colnames(results) = colnames(R)
     rownames(results) = "Frequency"

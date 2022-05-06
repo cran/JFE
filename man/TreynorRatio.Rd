@@ -19,18 +19,24 @@ asset returns}
 \item{modified}{a boolean to decide whether to return the Treynor ratio or
 Modified Treynor ratio}
 }
+
 \description{
 The Treynor ratio is similar to the Sharpe Ratio, except it uses beta as the
 volatility measure (to divide the investment's excess return over the beta).
 }
+
 \details{
 To calculate modified Treynor ratio, we divide the numerator by the systematic risk
-instead of the beta.
-
-Equation:
-\deqn{TreynorRatio = \frac{\overline{(R_{a}-R_{f})}}{\beta_{a,b}}}{(mean(Ra-Rf))/(Beta(Ra,Rb))}
-\deqn{ModifiedTreynorRatio = \frac{r_p - r_f}{\sigma_s}}{ModifiedTreynorRatio = (Rp - Rf)/sytematic risk}
+instead of the beta.\cr
+See also package \code{PerformanceAnalytics}.
 }
+
+
+
+\author{
+Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
+}
+
 \examples{
 
   data(assetReturns)
@@ -41,17 +47,3 @@ Equation:
   TreynorRatio(Ra, Rb)
 
 }
-\references{
-\url{https://en.wikipedia.org/wiki/Treynor_ratio},
-Carl Bacon, \emph{Practical portfolio performance measurement
-and attribution}, second edition 2008 p.77\cr
-See also package \code{PerformanceAnalytics}.
-}
-\seealso{
-\code{\link{SharpeRatio}} \code{\link{SortinoRatio}}
-
-}
-\author{
-Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
-}
-

@@ -11,7 +11,7 @@ annualized return.
 }
 
 \usage{
-ActivePremium(Ra, Rb, scale = NA, ...)
+ActivePremium(Ra, Rb, scale = NA)
 }
 \arguments{
 \item{Ra}{return vector of the portfolio}
@@ -21,15 +21,18 @@ ActivePremium(Ra, Rb, scale = NA, ...)
 \item{scale}{number of periods in a year
 (daily scale = 252, monthly scale = 12, quarterly scale = 4)}
 
-\item{...}{any other passthru parameters to Return.annualized
-(e.g., \code{geometric=FALSE})}
 }
 
 \details{
-Active Premium = Investment's annualized return - Benchmark's annualized
-return.
-With a view to speeding computation. I re-write the code of some ratios of the package PerformanceAnalytics,  and use the same name for comparing the performance enhancing. Interested readers may compare speed improvement with the use of system.time().
+Active Premium = Investment's annualized return - Benchmark's annualized return. With a view to speeding computation. I re-write the code of some ratios of the package PerformanceAnalytics,  and use the same name for comparing the performance enhancing. Interested readers may compare speed improvement with the use of system.time().\cr
+See package \code{PerformanceAnalytics} for technical details.
 }
+
+
+\author{
+Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
+}
+
 \examples{
 
   data(assetReturns)
@@ -38,15 +41,4 @@ With a view to speeding computation. I re-write the code of some ratios of the p
 	Rb=assetReturns[,29] #DJI
   ActivePremium(Ra, Rb)
 
-}
-\references{
-Sharpe, W.F. The Sharpe Ratio,\emph{Journal of Portfolio Management}, Fall 1994, 49-58.\cr
-See aslo package \code{PerformanceAnalytics}.
-}
-\seealso{
-\code{\link{InformationRatio}} \code{\link{TrackingError}}
-  \code{\link{Return.annualized}}
-}
-\author{
-Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
 }

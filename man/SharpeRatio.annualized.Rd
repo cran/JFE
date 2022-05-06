@@ -28,20 +28,15 @@ deviation to represent risk.
 \details{
 The Sharpe ratio is simply the return per unit of risk (represented by
 variance).  The higher the Sharpe ratio, the better the combined performance
-of "risk" and return.
-
-This function annualizes the number based on the scale parameter.
-
-\deqn{\frac{\sqrt[n]{prod(1+R_{a})^{scale}}-1}{\sqrt{scale}\cdot\sqrt{\sigma}}}
-
-Using an annualized Sharpe Ratio is useful for comparison of multiple return
-streams.  The annualized Sharpe ratio is computed by dividing the annualized
-mean monthly excess return by the annualized monthly standard deviation of
-excess return.
-
-William Sharpe now recommends Information Ratio preferentially to the
-original Sharpe Ratio.
+of "risk" and return.William Sharpe now recommends Information Ratio preferentially to the original Sharpe Ratio.\cr
+Sharpe, W.F. The Sharpe Ratio (1994) Journal of Portfolio Management,Fall, 49-58.\cr
+See also package \code{PerformanceAnalytics} for details.
 }
+\author{
+Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
+}
+
+
 \examples{
 
   data(assetReturns)
@@ -49,19 +44,3 @@ original Sharpe Ratio.
   SharpeRatio.annualized(R)
 
 }
-\references{
-Sharpe, W.F. The Sharpe Ratio,\emph{Journal of Portfolio
-Management},Fall 1994, 49-58.\cr
-See also package \code{PerformanceAnalytics}.
-}
-\seealso{
-\code{\link{SharpeRatio}} \cr \code{\link{InformationRatio}} \cr
-\code{\link{TrackingError}} \cr \code{\link{ActivePremium}} \cr
-\code{\link{SortinoRatio}}
-}
-
-
-\author{
-Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
-}
-

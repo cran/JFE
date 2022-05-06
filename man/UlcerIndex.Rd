@@ -4,13 +4,12 @@
 
 \title{calculate the Ulcer Index}
 \usage{
-UlcerIndex(R, ...)
+UlcerIndex(R)
 }
 \arguments{
 \item{R}{a vector, matrix, data frame, timeSeries or zoo object of asset
 returns}
 
-\item{\dots}{any other passthru parameters}
 }
 \description{
 Developed by Peter G. Martin in 1987 (Martin and McCann, 1987) and named
@@ -22,21 +21,17 @@ deep drawdowns will have significant impact because the underperformance
 since the last peak is squared.
 }
 \details{
-UI = sqrt(sum[i=1,2,...,n](D'_i^2/n)) where
-D'_i = drawdown since previous peak in period i
 
-DETAILS:
 This approach is sensitive to the frequency of the time periods involved
-and penalizes managers that take time to recover to previous highs.
+and penalizes managers that take time to recover to previous highs.\cr
 
-REFERENCES:
 Martin, P. and McCann, B. (1989) The investor's Guide to Fidelity Funds:
-Winning Strategies for Mutual Fund Investors.  John Wiley & Sons, Inc.
-Peter Martin's web page on UI: "http://www.tangotools.com/ui/ui.htm "
-
-## Test against spreadsheet at:
-"http://www.tangotools.com/ui/UlcerIndex.xls " \cr
+Winning Strategies for Mutual Fund Investors.  John Wiley & Sons, Inc.\cr
 See also package \code{PerformanceAnalytics}.
+}
+
+\author{
+Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
 }
 
 \examples{
@@ -45,7 +40,4 @@ See also package \code{PerformanceAnalytics}.
 	R=assetReturns[, -29]
   maxDrawdown(R)
 
-}
-\author{
-Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
 }

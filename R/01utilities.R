@@ -195,31 +195,8 @@ function(x, labels = TRUE, type = "l", col = "indianred2",title = TRUE, grid = T
 }
 
 
-downloadStockAI <- function (key="5edl69aag5", var.name="TWECO", from="2006-01-01", to="2015-12-31",
-                            showdata=TRUE){
-  #key="5edl69aag5" From 2006/1/1 to 2015/12/31
-  path<-"https://stock-ai.com/history-data-download?symbol="
 
-
-  url<-paste0(path,var.name, "&export=csv&startDate=",from,"&endDate=",to,"&key=", key,"&export=.csv")
-  filname<-paste0(var.name,".csv")
-#  temp <- tempfile(tmp=getwd(),fileext = ".csv")
-#  download.file(url,destfile=filname,quiet =TRUE)
-  temp0 <- read.csv(filname)
-  timeID<-temp0[,1]
-  y<-as.matrix(temp0[,2])
-  colnames(y)<-var.name
-  row.names(y)<-timeID
-  y<-timeSeries::as.timeSeries(y)
-  return(y)
-  if (showdata) {
-  print(head(y))
-  print(tail(y))
-  }
-
-}
-
-ttsDS <- function (y,x=NULL, arOrder=2,xregOrder=0,type=NULL) {
+.ttsDS <- function (y,x=NULL, arOrder=2,xregOrder=0,type=NULL) {
 #type=c("none","trend","season","both")
   if (!is.null(x)) {
     x=timeSeries::as.timeSeries(x)
@@ -283,6 +260,8 @@ ttsDS <- function (y,x=NULL, arOrder=2,xregOrder=0,type=NULL) {
 
 return(DF)
 }
+
+
 
 
 

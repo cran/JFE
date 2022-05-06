@@ -21,11 +21,11 @@ A measure of the unexplained portion of performance relative to a benchmark.
 Tracking error is calculated by taking the square root of the average of the
 squared deviations between the investment's returns and the benchmark's
 returns, then multiplying the result by the square root of the scale of the
-returns.
+returns.\cr
+Sharpe, W.F. The Sharpe Ratio(1994) Journal of Portfolio Management,Fall, 49-58.\cr
+See also package \code{PerformanceAnalytics}.
 
-\deqn{ TrackingError =
-\sqrt{\sum\frac{(R_{a}-R_{b})^{2}}{len(R_{a})\sqrt{scale}}} }{ TrackingError
-= sqrt(sum(Ra - Rb)^2 / (length(R) - 1)) * sqrt(scale)}
+
 }
 \examples{
   data(assetReturns)
@@ -36,15 +36,7 @@ returns.
   TrackingError(Ra, Rb)
 
 }
-\references{
-Sharpe, W.F. The Sharpe Ratio,\emph{Journal of Portfolio
-Management},Fall 1994, 49-58.\cr
-See also package \code{PerformanceAnalytics}.
-}
-\seealso{
-\code{\link{InformationRatio}} \code{\link{TrackingError}}
-}
+
 \author{
 Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
 }
-

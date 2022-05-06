@@ -4,7 +4,7 @@
 
 \title{caclulate the maximum drawdown from peak equity}
 \usage{
-maxDrawdown(R, geometric = TRUE, invert = TRUE, ...)
+maxDrawdown(R, geometric = TRUE, invert = TRUE)
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
@@ -16,7 +16,7 @@ default TRUE}
 \item{invert}{TRUE/FALSE whether to invert the drawdown measure.  see
 Details.}
 
-\item{\dots}{any other passthru parameters}
+
 }
 \description{
 To find the maximum drawdown in a return series, we need to first calculate
@@ -36,8 +36,17 @@ internally consistent with the quantile (a negative number), for which
 \code{invert=FALSE} will provide the value they expect.  Individually,
 different preferences may apply for clarity and compactness.  As such, we
 provide the option, but make no value judgment on which approach is
-preferable.
+preferable.\cr
+
+Bacon, C. (2008) Practical Portfolio Performance Measurement and Attribution. Wiley. 2004. p. 88 \cr
+See also documents in package \code{PerformanceAnalytics} for technical details.
+
 }
+
+\author{
+Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
+}
+
 \examples{
 
   data(assetReturns)
@@ -45,13 +54,4 @@ preferable.
 
   maxDrawdown(R)
 
-}
-\references{
-Bacon, C. \emph{Practical Portfolio Performance Measurement and
-Attribution}. Wiley. 2004. p. 88 \cr
-See also package \code{PerformanceAnalytics}.
-}
-
-\author{
-Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
 }

@@ -903,7 +903,7 @@ plotsVariable <- plotsVariable
 
 .GMVPStrategy <- function(data, spec = portfolioSpec(), constraints = "LongOnly", backtest = portfolioBacktest()) {
   strategyPortfolio <- try(minriskPortfolio(data, spec, constraints))
-  if (class(strategyPortfolio) == "try-error") {
+  if (inherits(strategyPortfolio) == "try-error") {
     strategyPortfolio <- minvariancePortfolio(data,spec,constraints)
   }
   strategyPortfolio
