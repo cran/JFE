@@ -26,7 +26,7 @@
   dat=eval(parse(text=temp))
   assign("retDF", dat, envir = .JFEEnv)
 
-  importedFileName=last(unlist(strsplit(name,"/")))
+  importedFileName=xts::last(unlist(strsplit(name,"/")))
   assign("importedFileName", importedFileName, envir = .JFEEnv)
   print(paste("You are loading ",importedFileName,sep=" "))
   print(tail(dat,2));print(head(dat,2))

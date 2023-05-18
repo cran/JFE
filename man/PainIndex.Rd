@@ -22,10 +22,12 @@ rather than the number of drawdowns.
 \details{
 Visually, the pain index is the area of the region that is enclosed by
 the horizontal line at zero percent and the drawdown line in the
-Drawdown chart.\cr
-Carl Bacon (2008) Practical portfolio performance measurement and attribution, second edition, p.89
-Becker, Thomas (2006) Zephyr Associates.\cr
-See also documents in package \code{PerformanceAnalytics} for technical details.
+Drawdown chart.
+
+\deqn{Pain index = \sum^{n}_{i=1} \frac{\mid D'_i \mid}{n}}{Pain index = sum(|D'i|/n)}
+
+where \eqn{n} is the number of observations of the entire series, \eqn{D'_i} is
+the drawdown since previous peak in period i
 }
 \examples{
   data(assetReturns)
@@ -34,8 +36,11 @@ See also documents in package \code{PerformanceAnalytics} for technical details.
 # PainIndex(R)
 
 }
-
-
+\references{
+Carl Bacon, \emph{Practical portfolio performance measurement
+and attribution}, second edition 2008 p.89, Becker, Thomas (2006) Zephyr Associates\cr
+See also package \code{PerformanceAnalytics}.
+}
 \author{
 Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
 }

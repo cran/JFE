@@ -10,7 +10,7 @@
 	dat=eval(parse(text=temp))
 	assign("Price", dat, envir = .JFEEnv)
 
-importedFileName=last(unlist(strsplit(name,"/")))
+importedFileName=xts::last(unlist(strsplit(name,"/")))
 assign("importedFileName", importedFileName, envir = .JFEEnv)
 print(paste("You are loading ",importedFileName,sep=" "))
 print(head(dat,3))
@@ -305,7 +305,7 @@ onOK <- function(){
 #infile=data.frame(Dates,unclass(Price[,x]))
 #    infile=Price[,x]
 #.iClickPrice(infile)
-    iClick::iClick.VisAssetPrice(Price[,x])
+#    iClick::iClick.VisAssetPrice(Price[,x])
 
 }
   tkgrid(.getFrame(xBox), sticky="nw")

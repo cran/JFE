@@ -11,7 +11,8 @@
   assign("retAS", dat, envir = .JFEEnv)
   #  .evalCmdChunk("summary(dat)")
   cat("Returns data is imported sucessfully","\n")
-  print(tail(dat,2));print(head(dat,2))
+  print(tail(dat,2))
+  print(head(dat,2))
   cat("\n")
 }
 
@@ -26,7 +27,7 @@
   dat=eval(parse(text=temp))
   assign("retAS", dat, envir = .JFEEnv)
 
-  importedFileName=last(unlist(strsplit(name,"/")))
+  importedFileName=xts::last(unlist(strsplit(name,"/")))
   assign("importedFileName", importedFileName, envir = .JFEEnv)
   print(paste("You are loading ",importedFileName,sep=" "))
   print(tail(dat,2));print(head(dat,2))
@@ -44,7 +45,7 @@
   Rf=as.numeric(Rf)
 
   if(Rb== "None"){
-    target=as.xts(apply(datx,1,mean))
+    target=xts::as.xts(apply(datx,1,mean))
     benchTitle="bench portfolio by average"
   } else {
     target=datx[,Rb]
@@ -93,7 +94,7 @@
   dataSelected=datx[(T0+1):nrow(datx),A]
   Selected <- foreignID[which(id)]
 
-  portfolioReturns=as.xts(apply(dataSelected,1,mean))
+  portfolioReturns=xts::as.xts(apply(dataSelected,1,mean))
 
   HomeIDk =as.character(HomeID)
   cat("\n","The home asset is","\n"); print(HomeIDk)
@@ -112,7 +113,7 @@ FUNCTION=match.fun(index)
   Title=paste("Performance by ", index)
 }
     cat("\n","Table of Annualized Returns is","\n")
-    print(table.AnnualizedReturns(as.xts(portfolioReturns)))
+    print(table.AnnualizedReturns(xts::as.xts(portfolioReturns)))
 
   ###===== Plotting
   bench=timeSeries::as.timeSeries(target[(T0+1):nrow(datx)])

@@ -1,6 +1,33 @@
+ActivePremium<-function (Ra, Rb, scale = NA) {
+  Ra = xts::as.xts(Ra)
+  Rb = xts::as.xts(Rb)
+  if (is.na(scale)) {
+    freq = xts::periodicity(Ra)
+    if (freq$scale %in% c("minute","hourly")) {stop("Data frequency is too high")
+    } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="weekly") {scale=52
+    } else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
+  }
+
+  .activePremium <- function(Ra, Rb, scale) {
+    merged = na.omit(merge(Ra, Rb))
+    ap = Return.annualized(merged[, 1], scale = scale) - Return.annualized(merged[, 2], scale = scale)
+    ap
+  }
+
+  result = sapply(Ra, .activePremium, Rb = Rb, scale = scale)
+  if (length(result) == 1)
+    return(result)
+  else {
+    dim(result) = c(ncol(Ra), ncol(Rb))
+    colnames(result) = paste0("Active Premium:", colnames(Rb))
+    rownames(result) = colnames(Ra)
+    return(t(result))
+  }
+}
+
 AdjustedSharpeRatio <-function(R,Rf = 0,FUN="StdDev"){
-  R=as.xts(R)
-  freq = periodicity(R)
+  R=xts::as.xts(R)
+  freq = xts::periodicity(R)
   if (freq$scale %in% c("minute","hourly")) {stop("Data frequency too high")
   } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="weekly") {scale=52
   } else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
@@ -15,87 +42,25 @@ AdjustedSharpeRatio <-function(R,Rf = 0,FUN="StdDev"){
   return(results)
 }
 
+BernardoLedoitRatio<-function (R) {
+  R <- xts::as.xts(R)
 
-SharpeRatio <- function(R, Rf = 0, alpha=0.05,FUN="StdDev", annualize=FALSE) {
-
-  R=as.xts(R)
-  if (annualize) {
-
-    SRm =SharpeRatio.annualized(R, Rf,scale = scale, FUN)
-
-  } else {
-
-    if (FUN =="StdDev") {
-
-      SRm = sapply(R,mean)/sapply(R,.covRisk)
-      SRm=t(as.matrix(SRm))
-      rownames(SRm)=paste0("StdDev Sharpe(Rf=", Rf, "%):")
-
-    } else if (FUN =="VaR") {
-
-      SRm= sapply(R,mean)/-sapply(R,.varRisk, alpha)
-      SRm=t(as.matrix(SRm))
-      rownames(SRm)=paste0("VaR Sharpe(Rf=", Rf, "%,alpha=",alpha,")")
-
-    } else if (FUN =="ES") {
-
-      SRm= sapply(R,mean)/-sapply(R,.cvarRisk,alpha)
-      SRm=t(as.matrix(SRm))
-      rownames(SRm)=paste0("ES Sharpe(Rf=", Rf, "%,alpha=",alpha,")")}
-  }
-
-  results=SRm
-  return(results)
-}
-
-
-SharpeRatio.annualized <-function(R, Rf = 0, alpha=0.05,scale = NA, geometric = TRUE,FUN="StdDev"){
-
-  R=as.xts(R)
-  freq = periodicity(R)
-  if (freq$scale %in% c("minute","hourly")) {stop("Data frequency too high")
-  } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="weekly") {scale=52
-  } else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
-
-
-  if (FUN =="StdDev") {
-    SRm = (Return.annualized(R, scale = scale, geometric = geometric)-Rf)/(timeSeries::colStdevs(R)*sqrt(scale))
-    SRm=t(as.matrix(SRm))
-    rownames(SRm)=paste0("Annualized StdDev Sharpe(Rf=", Rf, "%):")
-  }  else if (FUN =="VaR") {
-    SRm= (Return.annualized(R, scale = scale)-Rf)/(-sapply(R,.varRisk,alpha))
-    SRm=t(as.matrix(SRm))
-    rownames(SRm)=paste0("Annualized VaR Sharpe(Rf=", Rf, "%,alpha=",alpha,")")
-  }  else if (FUN =="ES") {
-    SRm= (Return.annualized(R, scale = scale)-Rf)/(-sapply(R,.cvarRisk,alpha))
-    SRm=t(as.matrix(SRm))
-    rownames(SRm)=paste0("Annualized ES Sharpe(Rf=", Rf, "%,alpha=",alpha,")")}
-
-  results <- SRm
-  return(results)
-}
-
-
-PainRatio <- function (R, Rf = 0) {
-
-
-  .painRatio <- function(R, Rf=Rf) {
-
-    Period = .Frequency(R)
-    PI = PainIndex(R)
-    Rp = (prod(1 + R))^(Period/nrow(R)) - 1
-    result = (Rp - Rf)/PI
-
+  .bernardoLedoitRatio<-function(R) {
+    R = na.omit(R)
+    r1 = R[which(R > 0)]
+    r2 = R[which(R < 0)]
+    result = sum(r1)/-sum(r2)
     return(result)
   }
-  R=as.xts(R)
-  results = sapply(R,  .painRatio, Rf = Rf)
+
+  results = sapply(R, .bernardoLedoitRatio)
   results <- t(results)
   colnames(results) = colnames(R)
-  rownames(results) = paste0("Pain Ratio (Rf = ", Rf, ")")
+  rownames(results) = "Bernardo and Ledoit ratio"
   return(results)
 
 }
+
 
 
 BurkeRatio <- function (R, Rf = 0, modified = FALSE) {
@@ -150,7 +115,7 @@ BurkeRatio <- function (R, Rf = 0, modified = FALSE) {
   }
 
 
-  R = na.omit(as.xts(R))
+  R = na.omit(xts::as.xts(R))
   result = apply(R, MARGIN = 2, .burkeRatio, Rf = Rf, modified = modified)
   result <- t(result)
   colnames(result) = colnames(R)
@@ -165,46 +130,6 @@ BurkeRatio <- function (R, Rf = 0, modified = FALSE) {
 }
 
 
-MartinRatio<-function (R, Rf = 0) {
-
-  .martinRatio <- function(R, Rf = 0) {
-    Period = .Frequency(R)
-    UI = UlcerIndex(R)
-    R=as.numeric(R)
-    n = length(R)
-    Rp = (prod(1 + R))^(Period/length(R)) - 1
-    result = (Rp - Rf)/UI
-  }
-
-
-  R = as.xts(na.omit(R))
-  result = sapply(R, .martinRatio, Rf = Rf)
-  result <- t(result)
-  colnames(result) = colnames(R)
-  rownames(result) = paste0("Martin Ratio (Rf = ", Rf, ")")
-  return(result)
-
-}
-
-KellyRatio<- function (R, Rf = 0) {
-
-
-  .kellyRatio <- function(R, Rf) {
-    xR = R-Rf
-    KR = mean(xR, na.rm = TRUE)/sd(R, na.rm = TRUE)^2
-    KR = KR/2
-    return(KR)
-  }
-  R = as.xts(R)
-  result = sapply(R, .kellyRatio, Rf = Rf)
-  dim(result) = c(1, NCOL(R))
-  colnames(result) = colnames(R)
-  rownames(result) = "Kelly Ratio"
-  return(result)
-}
-
-#-------------------------------------------------------------
-
 DRatio <- function (R) {
 
   .dRatio<-function(R) {
@@ -217,7 +142,7 @@ DRatio <- function (R) {
     return(result)
   }
 
-  R = as.xts(na.omit(R))
+  R = xts::as.xts(na.omit(R))
   result = apply(R, MARGIN=2, .dRatio)
   result <- t(result)
   colnames(result) = colnames(R)
@@ -225,6 +150,51 @@ DRatio <- function (R) {
   return(result)
 
 }
+
+
+KellyRatio<- function (R, Rf = 0) {
+
+
+  .kellyRatio <- function(R, Rf) {
+    xR = R-Rf
+    KR = mean(xR, na.rm = TRUE)/sd(R, na.rm = TRUE)^2
+    KR = KR/2
+    return(KR)
+  }
+  R = xts::as.xts(R)
+  result = sapply(R, .kellyRatio, Rf = Rf)
+  dim(result) = c(1, NCOL(R))
+  colnames(result) = colnames(R)
+  rownames(result) = "Kelly Ratio"
+  return(result)
+}
+
+#-------------------------------------------------------------
+
+
+
+
+MartinRatio<-function (R, Rf = 0) {
+
+  .martinRatio <- function(R, Rf = 0) {
+    Period = .Frequency(R)
+    UI = UlcerIndex(R)
+    R=as.numeric(R)
+    n = length(R)
+    Rp = (prod(1 + R))^(Period/length(R)) - 1
+    result = (Rp - Rf)/UI
+  }
+
+
+  R = xts::as.xts(na.omit(R))
+  result = sapply(R, .martinRatio, Rf = Rf)
+  result <- t(result)
+  colnames(result) = colnames(R)
+  rownames(result) = paste0("Martin Ratio (Rf = ", Rf, ")")
+  return(result)
+
+}
+
 
 
 SkewnessKurtosisRatio <- function (R)
@@ -236,7 +206,7 @@ SkewnessKurtosisRatio <- function (R)
     result = numerator/denominator
     return(result)
   }
-  R = na.omit(as.xts(R))
+  R = na.omit(xts::as.xts(R))
 
   results = sapply(R,  .skewnessKurtosisRatio)
   results <- t(results)
@@ -253,30 +223,12 @@ PainIndex<- function (R) {
     return(result)
   }
 
-  R = as.xts(R)
+  R = xts::as.xts(R)
   results = sapply(R, .pi)
   return(results)
 }
 
 
-BernardoLedoitRatio<-function (R) {
-  R <- as.xts(R)
-
-  .bernardoLedoitRatio<-function(R) {
-    R = na.omit(R)
-    r1 = R[which(R > 0)]
-    r2 = R[which(R < 0)]
-    result = sum(r1)/-sum(r2)
-    return(result)
-  }
-
-  results = sapply(R, .bernardoLedoitRatio)
-  results <- t(results)
-  colnames(results) = colnames(R)
-  rownames(results) = "Bernardo and Ledoit ratio"
-  return(results)
-
-}
 
 MeanAbsoluteDeviation<-function (R) {
 
@@ -285,7 +237,7 @@ MeanAbsoluteDeviation<-function (R) {
     result = sum(abs(R - mean(R)))/nrow(R)
     return(result)
   }
-  R=as.xts(R)
+  R=xts::as.xts(R)
   results = apply(R, MARGIN = 2, .meanAbsoluteDeviation)
   results <- t(results)
   colnames(results) = colnames(R)
@@ -296,9 +248,9 @@ MeanAbsoluteDeviation<-function (R) {
 
 # ------------------------------------------------------------------------------
 CalmarRatio <- function (R, scale = NA) {
-  R = as.xts(R)
+  R = xts::as.xts(R)
   if (is.na(scale)) {
-    freq = periodicity(R)
+    freq = xts::periodicity(R)
     if (freq$scale %in% c("minute","hourly")) {stop("Data frequency is too high")
     } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="weekly") {scale=52
     } else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
@@ -311,18 +263,20 @@ CalmarRatio <- function (R, scale = NA) {
 
 SterlingRatio <-function (R, scale = NA, excess = 0.1) {
   if (is.na(scale)) {
-    freq = periodicity(R)
+    freq = xts::periodicity(R)
     if (freq$scale %in% c("minute","hourly")) {stop("Data frequency is too high")
     } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="weekly") {scale=52
     } else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
   }
-  #  R = as.xts(R)
+  #  R = xts::as.xts(R)
   annualized_return = Return.annualized(R, scale = scale)
   drawdown = abs(maxDrawdown(R) + excess)
   result = annualized_return/drawdown
   rownames(result) = paste0("Sterling Ratio (Excess = ", round(excess *100, 0), "%)")
   return(result)
 }
+
+
 
 
 # ------------------------------------------------------------------------------
@@ -352,8 +306,8 @@ AppraisalRatio <- function (Ra, Rb, Rf = 0, method = c("appraisal", "modified",
     })
 
   }
-  Ra = as.xts(Ra)
-  Rb = as.xts(Rb)
+  Ra = xts::as.xts(Ra)
+  Rb = xts::as.xts(Rb)
 
   result = sapply(Ra, .appraisalRatio, Rb = Rb, Rf = Rf, method = method)
   result <- t(result)
@@ -372,7 +326,7 @@ AppraisalRatio <- function (Ra, Rb, Rf = 0, method = c("appraisal", "modified",
 
 TrackingError<- function (Ra, Rb, scale = NA) {
   if (is.na(scale)) {
-    freq = periodicity(Ra)
+    freq = xts::periodicity(Ra)
     if (freq$scale %in% c("minute","hourly")) {stop("Data frequency is too high")
     } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="weekly") {scale=52
     } else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
@@ -382,8 +336,8 @@ TrackingError<- function (Ra, Rb, scale = NA) {
     result=sd(Ra-Rb,na.rm = TRUE)* sqrt(scale)
   }
 
-  Ra=as.xts(Ra)
-  Rb=as.xts(Rb)
+  Ra=xts::as.xts(Ra)
+  Rb=xts::as.xts(Rb)
   result=sapply(Ra, .trackingError, Rb,scale=scale)
 
   if (length(result) == 1)
@@ -397,11 +351,11 @@ TrackingError<- function (Ra, Rb, scale = NA) {
 }
 
 InformationRatio<- function (Ra, Rb, scale = NA) {
-  Ra = as.xts(Ra)
-  Rb = as.xts(Rb)
+  Ra = xts::as.xts(Ra)
+  Rb = xts::as.xts(Rb)
 
   if (is.na(scale)) {
-    freq = periodicity(Ra)
+    freq = xts::periodicity(Ra)
     if (freq$scale %in% c("minute","hourly")) {stop("Data frequency is too high")
     } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="weekly") {scale=52
     } else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
@@ -425,39 +379,12 @@ InformationRatio<- function (Ra, Rb, scale = NA) {
   }
 }
 
-ActivePremium<-function (Ra, Rb, scale = NA) {
-  Ra = as.xts(Ra)
-  Rb = as.xts(Rb)
-  if (is.na(scale)) {
-    freq = periodicity(Ra)
-    if (freq$scale %in% c("minute","hourly")) {stop("Data frequency is too high")
-    } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="weekly") {scale=52
-    } else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
-  }
-
-  .activePremium <- function(Ra, Rb, scale) {
-    merged = na.omit(merge(Ra, Rb))
-    ap = Return.annualized(merged[, 1], scale = scale) - Return.annualized(merged[, 2], scale = scale)
-    ap
-  }
-
-  result = sapply(Ra, .activePremium, Rb = Rb, scale = scale)
-  if (length(result) == 1)
-    return(result)
-  else {
-    dim(result) = c(ncol(Ra), ncol(Rb))
-    colnames(result) = paste0("Active Premium:", colnames(Rb))
-    rownames(result) = colnames(Ra)
-    return(t(result))
-  }
-}
-
 
 TreynorRatio <- function (Ra, Rb, Rf = 0, scale = NA, modified = FALSE) {
-  Ra = as.xts(Ra)
-  Rb = as.xts(Rb)
+  Ra = xts::as.xts(Ra)
+  Rb = xts::as.xts(Rb)
   if (is.na(scale)) {
-    freq = periodicity(Ra)
+    freq = xts::periodicity(Ra)
     if (freq$scale %in% c("minute","hourly")) {stop("Data frequency is too high")
     } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="weekly") {scale=52
     } else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
@@ -504,7 +431,7 @@ DownsideDeviation <-function (R, MAR = 0, method = c("full","subset"), potential
   .downsideDeviation <- function (R,MAR,method) {
     r = subset(R, R < MAR)
     if (!is.null(dim(MAR))) {
-      if (is.timeBased(zoo::index(MAR))) {
+      if (xts::is.timeBased(zoo::index(MAR))) {
         MAR <- MAR[zoo::index(r)]
       }
       else {
@@ -527,7 +454,7 @@ DownsideDeviation <-function (R, MAR = 0, method = c("full","subset"), potential
   }
 
 
-  R = as.xts(na.omit(R))
+  R = xts::as.xts(na.omit(R))
   results = apply(R, MARGIN=2, .downsideDeviation, MAR = MAR, method = method)
   results <- t(results)
   colnames(results) = colnames(R)
@@ -546,7 +473,7 @@ OmegaSharpeRatio <-function (R, MAR = 0) {
     R = na.omit(R)
     r = R[which(R > MAR)]
 
-    if (is.timeBased(zoo::index(MAR))) {
+    if (xts::is.timeBased(zoo::index(MAR))) {
       MAR <- MAR[zoo::index(r)]
     }
     else {
@@ -559,7 +486,7 @@ OmegaSharpeRatio <-function (R, MAR = 0) {
     return(result)
   }
 
-  R = as.xts(R)
+  R = xts::as.xts(R)
   results = sapply(R, .omegaSharpeRatio, MAR = MAR)
   results <- t(results)
   colnames(results) = colnames(R)
@@ -574,7 +501,7 @@ SortinoRatio<- function (R, MAR = 0) {
     SR = mean((R-MAR), na.rm = TRUE)/DownsideDeviation(R,MAR)
     SR
   }
-  R = as.xts(R)
+  R = xts::as.xts(R)
   result = sapply(R, .sortinoRatio, MAR = MAR)
   dim(result) = c(1, NCOL(R))
   colnames(result) = colnames(R)
@@ -594,7 +521,7 @@ ProspectRatio <- function (R, MAR) {
     return(result)
   }
 
-  R <- as.xts(R)
+  R <- xts::as.xts(R)
   result = sapply(R, .prospectRatio, MAR = MAR)
   result <- t(result)
   colnames(result) = colnames(R)
@@ -611,7 +538,7 @@ VolatilitySkewness<- function (R, MAR = 0, stat = c("volatility", "variability")
   .volatilitySkewness<-function(R, MAR = 0,stat=stat) {
 
     if (!is.null(dim(MAR))) {
-      if (is.timeBased(zoo::index(MAR))) {
+      if (xts::is.timeBased(zoo::index(MAR))) {
         MAR <- MAR[zoo::index(R)]
       }
       else {
@@ -627,7 +554,7 @@ VolatilitySkewness<- function (R, MAR = 0, stat = c("volatility", "variability")
     return(result)
   }
 
-  R = as.xts(R)
+  R = xts::as.xts(R)
   result = sapply(R, .volatilitySkewness, MAR = MAR,stat = stat)
   result <- t(result)
   colnames(result) = colnames(R)
@@ -650,8 +577,8 @@ M2Sortino <- function (Ra, Rb, MAR = 0) {
 
     return(result)
   }
-  Ra = as.xts(Ra)
-  Rb = as.xts(Rb)
+  Ra = xts::as.xts(Ra)
+  Rb = xts::as.xts(Rb)
 
   results = sapply(Ra, .m2Sortino, Rb = Rb, MAR = MAR)
   results <- t(results)
@@ -664,15 +591,99 @@ M2Sortino <- function (Ra, Rb, MAR = 0) {
 
 # ------------------------------------------------------------------------------
 
+SharpeRatio <- function(R, Rf = 0, alpha=0.05,FUN="StdDev", annualize=FALSE) {
+
+  R=xts::as.xts(R)
+  if (annualize) {
+
+    SRm =SharpeRatio.annualized(R, Rf,scale = scale, FUN)
+
+  } else {
+
+    if (FUN =="StdDev") {
+
+      SRm = sapply(R,mean)/sapply(R,.covRisk)
+      SRm=t(as.matrix(SRm))
+      rownames(SRm)=paste0("StdDev Sharpe(Rf=", Rf, "%):")
+
+    } else if (FUN =="VaR") {
+
+      SRm= sapply(R,mean)/-sapply(R,.varRisk, alpha)
+      SRm=t(as.matrix(SRm))
+      rownames(SRm)=paste0("VaR Sharpe(Rf=", Rf, "%,alpha=",alpha,")")
+
+    } else if (FUN =="ES") {
+
+      SRm= sapply(R,mean)/-sapply(R,.cvarRisk,alpha)
+      SRm=t(as.matrix(SRm))
+      rownames(SRm)=paste0("ES Sharpe(Rf=", Rf, "%,alpha=",alpha,")")}
+  }
+
+  results=SRm
+  return(results)
+}
+
+
+SharpeRatio.annualized <-function(R, Rf = 0, alpha=0.05,scale = NA, geometric = TRUE,FUN="StdDev"){
+
+  R=xts::as.xts(R)
+  freq = xts::periodicity(R)
+  if (freq$scale %in% c("minute","hourly")) {stop("Data frequency too high")
+  } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="weekly") {scale=52
+  } else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
+
+
+  if (FUN =="StdDev") {
+    SRm = (Return.annualized(R, scale = scale, geometric = geometric)-Rf)/(timeSeries::colStdevs(R)*sqrt(scale))
+    SRm=t(as.matrix(SRm))
+    rownames(SRm)=paste0("Annualized StdDev Sharpe(Rf=", Rf, "%):")
+  }  else if (FUN =="VaR") {
+    SRm= (Return.annualized(R, scale = scale)-Rf)/(-sapply(R,.varRisk,alpha))
+    SRm=t(as.matrix(SRm))
+    rownames(SRm)=paste0("Annualized VaR Sharpe(Rf=", Rf, "%,alpha=",alpha,")")
+  }  else if (FUN =="ES") {
+    SRm= (Return.annualized(R, scale = scale)-Rf)/(-sapply(R,.cvarRisk,alpha))
+    SRm=t(as.matrix(SRm))
+    rownames(SRm)=paste0("Annualized ES Sharpe(Rf=", Rf, "%,alpha=",alpha,")")}
+
+  results <- SRm
+  return(results)
+}
+
+
+PainRatio <- function (R, Rf = 0) {
+
+
+  .painRatio <- function(R, Rf=Rf) {
+
+    Period = .Frequency(R)
+    PI = PainIndex(R)
+    Rp = (prod(1 + R))^(Period/nrow(R)) - 1
+    result = (Rp - Rf)/PI
+
+    return(result)
+  }
+  R=xts::as.xts(R)
+  results = sapply(R,  .painRatio, Rf = Rf)
+  results <- t(results)
+  colnames(results) = colnames(R)
+  rownames(results) = paste0("Pain Ratio (Rf = ", Rf, ")")
+  return(results)
+
+}
+
+
+
+
 table.AnnualizedReturns <-function (R, scale = NA, Rf = 0, geometric = TRUE, digits = 4)
 {
-  y = as.xts(R)
+  y = xts::as.xts(R)
   #  if (!is.null(dim(Rf)))
   columns = ncol(y)
   columnnames = colnames(y)
 
   if (is.na(scale)) {
-    freq = periodicity(R)
+    freq = xts::periodicity(R)
     if (freq$scale %in% c("minute","hourly")) {stop("Data frequency is too high")
     } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="weekly") {scale=52
     } else if (freq$scale=="monthly") {scale=12} else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
@@ -699,14 +710,14 @@ table.AnnualizedReturns <-function (R, scale = NA, Rf = 0, geometric = TRUE, dig
 
 
 Return.annualized <-function (R, scale = NA, geometric = TRUE) {
-  R=as.xts(R)
+  R=xts::as.xts(R)
 
   .return.annualized <- function(R, scale = scale, geometric = geometric) {
     R = na.omit(R)
     n = nrow(R)
 
     if (is.na(scale)) {
-      freq = periodicity(R)
+      freq = xts::periodicity(R)
       if (freq$scale %in% c("minute","hourly")) {stop("Data frequency is too high")
       } else if (freq$scale=="daily") {scale=252} else if (freq$scale=="monthly") {scale=12} else if (freq$scale=="weekly") {scale=52
       } else if (freq$scale=="quarterly") {scale=4} else if (freq$scale=="yearly") {scale=1}
@@ -728,8 +739,8 @@ Return.annualized <-function (R, scale = NA, geometric = TRUE) {
 
 CAPM.jensenAlpha<- function (Ra, Rb, Rf = 0) {
 
-  Ra = as.xts(Ra)
-  Rb = as.xts(Rb)
+  Ra = xts::as.xts(Ra)
+  Rb = xts::as.xts(Rb)
 
   .capmJensenAlpha <-function(Ra, Rb = Rb,Rf = Rf) {
     #Period = .Frequency(Ra)
@@ -760,7 +771,7 @@ UlcerIndex <-function (R) {
     return(result)
   }
 
-  R = as.xts(R)
+  R = xts::as.xts(R)
   results = sapply(R, .ui)
   dim(results) = c(1, NCOL(R))
   colnames(results) = colnames(R)
@@ -793,7 +804,7 @@ DrawdownPeak <- function (R) {
 
   }
 
-  R = as.xts(R)
+  R = xts::as.xts(R)
   results = sapply(R, .drawdownpeak)
   colnames(results) = colnames(R)
   return(results)
@@ -807,7 +818,7 @@ DrawdownPeak <- function (R) {
     return(DownsideDeviation(R, MAR = MAR, method = "full", potential = TRUE))
   }
 
-  R = as.xts(R)
+  R = xts::as.xts(R)
   results = sapply(R, .downsidePotential, MAR = MAR)
   results = matrix(results, nrow = 1)
   colnames(results) = colnames(R)
@@ -827,7 +838,7 @@ DrawdownPeak <- function (R) {
     R = na.omit(R)
     r = R[which(R > MAR)]
     if (!is.null(dim(MAR))) {
-      if (is.timeBased(zoo::index(MAR))) {
+      if (xts::is.timeBased(zoo::index(MAR))) {
         MAR <- MAR[zoo::index(r)]
       }
       else {
@@ -849,7 +860,7 @@ DrawdownPeak <- function (R) {
     return(result)
   }
 
-  R = as.xts(R)
+  R = xts::as.xts(R)
   results = sapply(R, .upsideRisk, MAR = MAR, method = method, stat = stat)
   results <- t(results)
   colnames(results) = colnames(R)
@@ -861,23 +872,9 @@ DrawdownPeak <- function (R) {
 
 
 .Drawdowns <- function (R, geometric = TRUE) {
-  x = as.xts(R)
+  x = xts::as.xts(R)
   columns = ncol(x)
   columnnames = colnames(x)
-
-
-  na.skip <- function (x, FUN=NULL, ...) {
-    nx <- na.omit(x)
-    fx <- FUN(nx, ... = ...)
-    if (is.vector(fx)) {
-      result <- .xts(fx, .index(x), .indexCLASS = indexClass(x))
-    }
-    else {
-      result <- merge(fx, .xts(, .index(x)))
-    }
-    return(result)
-  }
-
 
   .colDrawdown <- function(x, geometric, ...) {
     if (geometric) { Return.cumulative = cumprod(1 + x)
@@ -888,7 +885,7 @@ DrawdownPeak <- function (R) {
   }
 
   for (column in 1:columns) {
-    column.drawdown <- na.skip(x[, column], FUN = .colDrawdown, geometric = geometric)
+    column.drawdown <- .na.skip(x[, column], FUN = .colDrawdown, geometric = geometric)
     if (column == 1)
       drawdown = column.drawdown
     else drawdown = merge(drawdown, column.drawdown)
@@ -896,10 +893,22 @@ DrawdownPeak <- function (R) {
 
   colnames(drawdown) = columnnames
   #  drawdown = reclass(drawdown, x)
-  drawdown = as.xts(drawdown, x)
+  drawdown = xts::as.xts(drawdown, x)
   return(drawdown)
 }
 
+
+.na.skip <- function (x, FUN=NULL, ...) {
+  nx <- na.omit(x)
+  fx <- FUN(nx, ... = ...)
+  if (is.vector(fx)) {
+    result <- xts::.xts(fx, xts::.index(x), .indexCLASS = xts::indexClass(x))
+  }
+  else {
+    result <- merge(fx, xts::.xts(, xts::.index(x)))
+  }
+  return(result)
+}
 
 maxDrawdown <-function (R, geometric = TRUE, invert = TRUE) {
 
@@ -911,7 +920,7 @@ maxDrawdown <-function (R, geometric = TRUE, invert = TRUE) {
     return(result)
   }
 
-  R = na.omit(as.xts(R))
+  R = na.omit(xts::as.xts(R))
   result = sapply(R, .maxdrawdown, geometric = geometric,invert = invert)
   dim(result) = c(1, NCOL(R))
   colnames(result) = colnames(R)
@@ -951,7 +960,7 @@ maxDrawdown <-function (R, geometric = TRUE, invert = TRUE) {
     kurtosis
 
   }
-  R = as.xts(R)
+  R = xts::as.xts(R)
   result=sapply(R, .kurtosis,method)
   result=t(as.matrix(result))
   colnames(result) = colnames(R)
@@ -983,7 +992,7 @@ maxDrawdown <-function (R, geometric = TRUE, invert = TRUE) {
 
     Skewness
   }
-  R = as.xts(na.omit(R))
+  R = xts::as.xts(na.omit(R))
   result=sapply(R,  .skewness, method=method)
   result=t(as.matrix(result))
   colnames(result) = colnames(R)
@@ -1036,10 +1045,10 @@ maxDrawdown <-function (R, geometric = TRUE, invert = TRUE) {
   }
 
 .Frequency <- function (R) {
-  R = as.xts(R)
+  R = xts::as.xts(R)
 
   .frequency <- function(R) {
-      freq = periodicity(R)
+      freq = xts::periodicity(R)
       switch(freq$scale, minute = {
         stop("Data Frequency is too high")
       }, hourly = {

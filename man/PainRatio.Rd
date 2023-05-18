@@ -18,8 +18,11 @@ To calculate Pain ratio we divide the difference of the portfolio return
 and the risk free rate by the Pain index
 }
 \details{
+\deqn{Pain ratio = \frac{r_P - r_F}{\sum^{n}_{i=1} \frac{\mid D'_i \mid}{n}}}{Pain ratio = (rp - rf) / Pain index}
 
-See also documents in package \code{PerformanceAnalytics} for technical details.
+where \eqn{r_P} is the annualized portfolio return, \eqn{r_F} is the risk free
+rate, \eqn{n} is the number of observations of the entire series, \eqn{D'_i} is
+the drawdown since previous peak in period i
 }
 \examples{
   data(assetReturns)
@@ -29,7 +32,9 @@ See also documents in package \code{PerformanceAnalytics} for technical details.
 
 }
 \references{
-Carl Bacon(2008) Practical portfolio performance measurement and attribution, second edition, p.91
+Carl Bacon, \emph{Practical portfolio performance measurement
+and attribution}, second edition 2008 p.91\cr
+See also package \code{PerformanceAnalytics}.
 }
 
 \author{

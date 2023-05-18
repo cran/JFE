@@ -48,7 +48,7 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
 }
 
 \examples{
-
-getFed(var.name="UNRATE")$data
+#To save time, the example below is commented.
+#getFed(var.name="UNRATE")$data
 
 }

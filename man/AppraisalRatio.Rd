@@ -24,21 +24,21 @@ Jensen's alpha.}
 \description{
 Appraisal ratio is the Jensen's alpha adjusted for specific risk. The numerator
 is divided by specific risk instead of total risk.
-
 }
 \details{
 Modified Jensen's alpha is Jensen's alpha divided by beta.
 
-Alternative Jensen's alpha is Jensen's alpha divided by systematic risk.\cr
+Alternative Jensen's alpha is Jensen's alpha divided by systematic risk.
 
-See also documents in package \code{PerformanceAnalytics} for technical details.\cr
-Carl Bacon (2008) Practical portfolio performance measurement and attribution, second edition, p.77.
+\deqn{Appraisal ratio = \frac{\alpha}{\sigma_{\epsilon}}}{Appraisal ratio = Jensen's alpha / specific risk}
+
+\deqn{Modified Jensen's alpha = \frac{\alpha}{\beta}}{Modified Jensen's alpha = Jensen's alpha / beta}
+
+\deqn{Alternative Jensen's alpha = \frac{\alpha}{\sigma_S}}{Alternative Jensen's alpha = Jensen's alpha / systematic risk}
+
+where \eqn{alpha} is the Jensen's alpha, \eqn{\sigma_{epsilon}} is the specific risk,
+\eqn{\sigma_S} is the systematic risk.
 }
-
-\author{
-Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
-}
-
 \examples{
 
     data(assetReturns)
@@ -46,4 +46,12 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
 	Rb=assetReturns[,29] #DJI
 AppraisalRatio(Ra, Rb, method="appraisal")
 
+}
+\references{
+Carl Bacon, \emph{Practical portfolio performance measurement
+and attribution}, second edition 2008 p.77.\cr
+See also package \code{PerformanceAnalytics}.
+}
+\author{
+Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
 }

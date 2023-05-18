@@ -60,11 +60,11 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
 }
 
 \examples{
-
-output=getFrench.Portfolios(filename="5_Industry_Portfolios")
-output$file.name
-dim(output$data[[1]])
-output$data
-output$table.names
+#To save time, the example below is commented.
+#output=getFrench.Portfolios(filename="5_Industry_Portfolios")
+#output$file.name
+#dim(output$data[[1]])
+#output$data
+#output$table.names
 
 }

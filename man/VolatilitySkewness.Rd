@@ -23,16 +23,12 @@ downside variance. Variability skewness is the ratio of the upside risk
 compared to the downside risk.
 }
 \details{
-Carl Bacon (2008) Practical portfolio performance measurement and attribution, second edition, p.97-98.\cr
-See package \code{PerformanceAnalytics} for technical details.
+\deqn{ VolatilitySkewness(R , MAR) = \frac{\sigma_U^2}{\sigma_D^2}}{VolatilitySkewness(R, MAR) = UpsideVariance / DownsideVariance}
+
+\deqn{ VariabilitySkewness(R , MAR) = \frac{\sigma_U}{\sigma_D}}{VariabilitySkewness(R, MAR) = UpsideRisk / DownsideRisk}
+
+where \eqn{\sigma_U} is the Upside risk and \eqn{\sigma_D} is the Downside Risk
 }
-
-
-\author{
-Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
-}
-
-
 \examples{
 
   data(assetReturns)
@@ -40,3 +36,12 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
   VolatilitySkewness(R, MAR=0, stat="volatility")
 
 }
+\references{
+Carl Bacon, \emph{Practical portfolio performance measurement
+and attribution}, second edition 2008 p.97-98.\cr
+See also package PerformanceAnalytics.
+}
+\author{
+Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
+}
+

@@ -36,7 +36,7 @@ tkadd(priceMenu, "command", label="Time series plot", command =.pricePlot)
 tkadd(priceMenu, "command", label="ACF/PACF plot", command =.PriceAcfPlots)
 tkadd(priceMenu, "command", label="Box plot", command =.PriceBoxPlots)
 tkadd(priceMenu, "command", label="Technical charting(For OHLC only)", command =.priceCharting)
-tkadd(priceMenu, "command", label="Advanced Visualization", command =.iClickPrice_Menu)
+#tkadd(priceMenu, "command", label="Advanced Visualization", command =.iClickPrice_Menu)
 
 #3. Returns
 returnsMenu <- tkmenu(menuBar)
@@ -60,7 +60,7 @@ tkadd(returnsMenu, "command", label="Dependency plots", command =.acfPlots)
 tkadd(returnsMenu, "command", label="Four QQ plots", command =.QQPlot)
 tkadd(returnsMenu, "command", label="NIG triangle", command =.nigTriangle)
 tkadd(returnsMenu, "command", label="Box plot", command =.ReturnsBoxPlots)
-tkadd(returnsMenu, "command", label="Advanced Visualization", command =.iClickReturn_Menu)
+#tkadd(returnsMenu, "command", label="Advanced Visualization", command =.iClickReturn_Menu)
 
 #4. Assets selections
 assetSelectionMenu <- tkmenu(menuBar)
@@ -96,7 +96,7 @@ tkadd(backtestMenu,"command", label = "Returns data: Just Load",command = functi
 
 tkadd(backtestMenu,"command", label = "Change dataset in this Dir",command = .getReturns4backtesting)
 tkadd(backtestMenu, "command", label= "Backtesting", command =.backtestingMenu)
-tkadd(backtestMenu, "command", label= "Backtesting All in One", command =.iClickBacktesting_Menu)
+#tkadd(backtestMenu, "command", label= "Backtesting All in One", command =.iClickBacktesting_Menu)
 
 # 6. GARCH
 garchMenu <- tkmenu(menuBar)

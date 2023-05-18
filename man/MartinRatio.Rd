@@ -18,18 +18,13 @@ asset returns}
 To calculate Martin ratio we divide the difference of the portfolio return
 and the risk free rate by the Ulcer index
 }
-
 \details{
-Carl Bacon, \emph{Practical portfolio performance measurement
-and attribution}, second edition 2008 p.91.\cr
-See also package \code{PerformanceAnalytics}.
+\deqn{Martin ratio = \frac{r_P - r_F}{\sqrt{\sum^{n}_{i=1} \frac{{D'_i}^2}{n}}}}{Martin ratio = (rp - rf) / Ulcer index}
+
+where \eqn{r_P} is the annualized portfolio return, \eqn{r_F} is the risk free
+rate, \eqn{n} is the number of observations of the entire series, \eqn{D'_i} is
+the drawdown since previous peak in period i
 }
-
-
-\author{
-Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
-}
-
 \examples{
   data(assetReturns)
 	R=assetReturns[, -29]
@@ -37,4 +32,12 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
 # Not run
 # MartinRatio(R)
 
+}
+\references{
+Carl Bacon, \emph{Practical portfolio performance measurement
+and attribution}, second edition 2008 p.91\cr
+See also package \code{PerformanceAnalytics}.
+}
+\author{
+Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
 }

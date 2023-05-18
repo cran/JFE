@@ -36,17 +36,8 @@ internally consistent with the quantile (a negative number), for which
 \code{invert=FALSE} will provide the value they expect.  Individually,
 different preferences may apply for clarity and compactness.  As such, we
 provide the option, but make no value judgment on which approach is
-preferable.\cr
-
-Bacon, C. (2008) Practical Portfolio Performance Measurement and Attribution. Wiley. 2004. p. 88 \cr
-See also documents in package \code{PerformanceAnalytics} for technical details.
-
+preferable.
 }
-
-\author{
-Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
-}
-
 \examples{
 
   data(assetReturns)
@@ -54,4 +45,13 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
 
   maxDrawdown(R)
 
+}
+\references{
+Bacon, C. \emph{Practical Portfolio Performance Measurement and
+Attribution}. Wiley. 2004. p. 88 \cr
+See also package \code{PerformanceAnalytics}.
+}
+
+\author{
+Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
 }

@@ -19,17 +19,13 @@ asset return}
 \description{
 M squared for Sortino is a M^2 calculated for Downside risk instead of Total Risk
 }
-
 \details{
-See documents in package \code{PerformanceAnalytics} for technical details. \cr
-Carl Bacon (2008) Practical portfolio performance measurement and attribution, second edition, p.102-103.
+\deqn{M^2_S = r_P + Sortino ratio * (\sigma_{DM} - \sigma_D)}{M^2 (Sortino) = Rp + Sortino ratio * (DownsideRiskBenchmark - DownsideRiskPortfolio)}
+
+where \eqn{M^2_S} is MSquared for Sortino, \eqn{r_P} is the annualised portfolio return,
+\eqn{\sigma_{DM}} is the benchmark annualised downside risk and \eqn{D} is the portfolio
+annualised downside risk
 }
-
-
-\author{
-Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
-}
-
 \examples{
 
   data(assetReturns)
@@ -39,3 +35,12 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
 M2Sortino(Ra, Rb, MAR=0)
 
 }
+\references{
+Carl Bacon, \emph{Practical portfolio performance measurement
+and attribution}, second edition 2008 p.102-103\cr
+See aslo package \code{PerformanceAnalytics}.
+}
+\author{
+Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
+}
+

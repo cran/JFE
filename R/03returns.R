@@ -8,7 +8,7 @@
 	dataz=timeSeries::as.timeSeries(dataz)
 	dat=timeSeries::returns(dataz)
   assign("retDF", dat, envir = .JFEEnv)
-importedFile=last(unlist(strsplit(name,"/")))
+importedFile=xts::last(unlist(strsplit(name,"/")))
 print(paste("You are loading ",importedFile,sep=" "))
 print(head(dat))
 }
@@ -345,7 +345,7 @@ onOK <- function(){
    tkmessageBox(message = "You must select a variable.", icon = "error", type = "ok")
     return()
       }
-iClick::iClick.VisOneReturns(retDF[,x])
+#iClick::iClick.VisOneReturns(retDF[,x])
 }
   tkgrid(.getFrame(xBox), sticky="nw")
 

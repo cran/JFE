@@ -20,16 +20,9 @@ default TRUE}
 
 \item{digits}{number of digits to round results to}
 }
-
 \description{
 Table of Annualized Return, Annualized Std Dev, and Annualized Sharpe
 }
-
-
-\author{
-Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
-}
-
 \examples{
 
   data(assetReturns)
@@ -37,3 +30,11 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
   table.AnnualizedReturns(R=Ra)
 
 }
+\seealso{
+\code{\link{Return.annualized}} \cr
+\code{\link{SharpeRatio.annualized}}
+}
+\author{
+Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
+}
+

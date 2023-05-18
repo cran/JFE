@@ -23,18 +23,12 @@ The Active Premium divided by the Tracking Error.
 InformationRatio = ActivePremium/TrackingError
 
 This relates the degree to which an investment has beaten the benchmark to
-the consistency with which the investment has beaten the benchmark.\cr
-See also documents in package \code{PerformanceAnalytics} for technical details.\cr
-Sharpe, W.F. The Sharpe Ratio (1994) Journal of Portfolio Management,Fall, 49-58
+the consistency with which the investment has beaten the benchmark.
+}
+\note{
 William Sharpe now recommends \code{InformationRatio} preferentially
-to the original \code{SharpeRatio}.
+to the original \code{\link{SharpeRatio}}.
 }
-
-
-\author{
-Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
-}
-
 \examples{
 
   data(assetReturns)
@@ -43,4 +37,16 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
 
   InformationRatio(Ra, Rb)
 
+}
+\references{
+Sharpe, W.F. The Sharpe Ratio,\emph{Journal of Portfolio
+Management},Fall 1994, 49-58.\cr
+See also package \code{PerformanceAnalytics}.
+}
+\seealso{
+\code{\link{TrackingError}} \cr \code{\link{ActivePremium}} \cr
+\code{\link{SharpeRatio}}
+}
+\author{
+Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
 }

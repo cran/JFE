@@ -46,9 +46,10 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
 }
 
 \examples{
-output=getBIS(sheet=c("Nominal","Real")[1], type=c("broad","narrow")[1])
-output$data
-output$data.info
-output$country.info
+#To save time, the example below is commented.
+#output=getBIS(sheet=c("Nominal","Real")[1], type=c("broad","narrow")[1])
+#output$data
+#output$data.info
+#output$country.info
 
 }

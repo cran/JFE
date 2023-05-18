@@ -56,15 +56,15 @@ The risk parity portfolio has two options: the first is to select a subset of as
     The function \code{maxreturnPortfolio} returns the portfolio
     with the maximal return for a fixed target risk. \cr
 
-    Risk parity portfolio calls \code{FRAPO}, which requires symmetric covariance matrices, so far we support only five covariance methods.\cr
-Roncalli Thierry(2014) Introduction to Risk parity and Budgeting, 2014, CRC inc.\cr
-See also packages \code{fPORTFOLIO} and \code{FRAPO}
-
+    Risk parity portfolio calls \code{FRAPO}, which requires symmetric covariance matrices, so far we support only five covariance methods.
 }
 \value{
 returns an S4 object of class \code{"fPORTFOLIO"}.
 }
-
+\references{
+Roncalli Thierry, \emph{Introduction to Risk parity and Budgeting}, 2014, CRC inc..\cr
+See also packages \code{fPORTFOLIO} and \code{FRAPO}
+}
 \author{
 Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
 

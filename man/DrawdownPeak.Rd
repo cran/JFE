@@ -16,17 +16,15 @@ asset returns}
 Drawdawn peak is for each return its drawdown since the previous peak
 }
 
-\author{
-Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
-}
-
-
-
 \examples{
   data(assetReturns)
 	R=assetReturns[, -29]
 # Not run
 # DrawdownPeak(R)
+
+
 }
 
-
+\author{
+Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
+}

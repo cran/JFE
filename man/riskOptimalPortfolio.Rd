@@ -28,15 +28,15 @@ Drawdown types, we call package FRAPO to support three methods:"maxDD","aveDD",a
 }
 \details{
 
-The risk optimal portfolio  calls \code{FRAPO} and wrapp the results as a S4 object of class \code{fPORTFOLIO}, all get functions of \code{fPORTFOLIO} are applicable.\cr
-Roncalli Thierry(2014) Introduction to Risk parity and Budgeting, 2014, CRC inc.\cr
-See also packages \code{fPORTFOLIO} and \code{FRAPO}
-
+The risk optimal portfolio  calls \code{FRAPO} and wrapp the results as a S4 object of class \code{fPORTFOLIO}, all get functions of \code{fPORTFOLIO} are applicable.
 }
 \value{
-returns an S4 object of class \code{fPORTFOLIO}.
+returns an S4 object of class \code{"fPORTFOLIO"}.
 }
-
+\references{
+Roncalli Thierry, \emph{Introduction to Risk parity and Budgeting}, 2014, CRC inc..\cr
+See also packages \code{fPORTFOLIO} and \code{FRAPO}
+}
 \author{
 Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
 
@@ -53,3 +53,4 @@ Data.RET=timeSeries::returns(Data) # Transform into returns to compute VALUE bel
 #getWeights(output)
 #getCovRiskBudgets(output)
 }
+

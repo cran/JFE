@@ -22,22 +22,21 @@ asset returns}
 \description{
 An average annualized return is convenient for comparing returns.
 }
-
 \details{
 Annualized returns are useful for comparing two assets.  To do so, you must
 scale your observations to an annual scale by raising the compound return to
 the number of periods in a year, and taking the root to the number of total
-observations.\cr
-Bacon, Carl(2008) Practical Portfolio Performance Measurement and Attribution. Wiley , p. 6.\cr
-See also documents in package \code{PerformanceAnalytics} for details.
+observations:
+\deqn{prod(1+R_{a})^{\frac{scale}{n}}-1=\sqrt[n]{prod(1+R_{a})^{scale}}-1}{prod(1
++ Ra)^(scale/n) - 1}
 
+where scale is the number of periods in a year, and n is the total number of
+periods for which you have observations.
+
+For simple returns (geometric=FALSE), the formula is:
+
+\deqn{\overline{R_{a}} \cdot scale}{mean(R)*scale}
 }
-
-\author{
-Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
-}
-
-
 \examples{
 
   data(assetReturns)
@@ -46,5 +45,13 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
   Return.annualized(R)
 
 }
+\references{
+Bacon, Carl. \emph{Practical Portfolio Performance Measurement
+and Attribution}. Wiley. 2004. p. 6\cr
+See also package \code{PerformanceAnalytics}.
+}
 
+\author{
+Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
+}
 
