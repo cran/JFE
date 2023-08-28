@@ -1,4 +1,4 @@
-a0c2747b15e1793ae9746f3ddccdd3c6 *DESCRIPTION
+186ff15e8529d5e3696bfe788899f39f *DESCRIPTION
 f65eb7600172fb5332f8f15d9fb3a9a5 *NAMESPACE
 088f81c814ed5e9146cb70ac6d380c5c *R/01utilities.R
 3a11105c07c2faa1498dfa80c96c33fa *R/02price.R
@@ -9,7 +9,7 @@ e9a331b1dea244bb6f680f312e1f1348 *R/05Portfolio.R
 ea58fc30f248defc1a24fa7783d07ee1 *R/06GARCH.R
 9abb9ec32033c34964632285ff28faf2 *R/07dataDownload.R
 afdaac5c5317752209a709aa963f39d3 *R/JFE.R
-1a9f714840e6ab77203434695dc624f8 *R/PerformanceIndex.R
+19b05941a9d7a2376926cc7c33826a6f *R/PerformanceIndex.R
 b64e54a17187383026c42ba5b58a7d86 *data/assetReturns.rda
 1035f14197e9ca2a9e957becae9be88f *data/macrodata.rda
 ccfccff7456c49eeaf769d5784a6ea39 *man/ActivePremium.Rd

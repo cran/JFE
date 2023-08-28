@@ -634,7 +634,7 @@ SharpeRatio.annualized <-function(R, Rf = 0, alpha=0.05,scale = NA, geometric = 
 
 
   if (FUN =="StdDev") {
-    SRm = (Return.annualized(R, scale = scale, geometric = geometric)-Rf)/(timeSeries::colStdevs(R)*sqrt(scale))
+    SRm = (Return.annualized(R, scale = scale, geometric = geometric)-Rf)/( timeSeries::colSds(R)*sqrt(scale))
     SRm=t(as.matrix(SRm))
     rownames(SRm)=paste0("Annualized StdDev Sharpe(Rf=", Rf, "%):")
   }  else if (FUN =="VaR") {
