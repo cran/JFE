@@ -26,7 +26,7 @@ getFed <- function (var.name="UNRATE", from="1900-01-01",end=Sys.Date(), do.plot
   dat=dat0[,2,drop=FALSE]
   rownames(dat)=as.character(dat0[,1])
   # xts::as.xts(dat0[,2,drop=FALSE],as.Date(dat0[,1]))
-  if (isTRUE(do.plot)) {.seriesPlotX(timeSeries::as.timeSeries(dat))}
+#  if (isTRUE(do.plot)) {.seriesPlotX(timeSeries::as.timeSeries(dat))}
 
   return(list(data=dat))
 }
@@ -220,34 +220,40 @@ getFrench.Portfolios<-function(filename="Portfolios_Formed_on_ME") {
 
 
 
+.seriesPlotX <-
+  function(x, labels = TRUE, type = "l", col = "indianred2",title = TRUE, grid = TRUE, box = TRUE, rug = TRUE, ...)
 
-getTWSE.fiveSecond<-function(ymd=NULL,skip=2,index.names=NULL){
+  {
 
-  if(.Platform$OS.type == "unix") {
-    Sys.setlocale(category = "LC_ALL", locale = "en_US.UTF-8")
-  } else {
-    Sys.setlocale(category = "LC_ALL", locale = "English_United States.1252")
+    #    stopifnot(is.timeSeries(x))
+    N = NCOL(x)
+    Units = colnames(x)
+    if (length(col) == 1) col = rep(col, times = N)
+
+    # Series Plots:
+    for (i in 1:N) {
+      X = x[, i]
+      plot(x = X, type = type, col = col[i], ann = FALSE, ...)
+
+      # Add Title:
+      if (title) {
+        title(main = Units[i])
+      } else {
+        title(...)
+      }
+
+      # Add Grid:
+      if(grid) grid()
+
+      # Add Box:
+      if(box) box()
+
+      # Add Rugs:
+      if(rug) rug(as.vector(X), ticksize = 0.01, side = 2, quiet = TRUE)
+    }
+
+    # Return Value:
+    invisible()
   }
-
-  if(is.null(ymd)) {ymd=Sys.Date()}
-  if (lubridate::wday(ymd,label=TRUE)=="Sun") {ymd=as.Date(ymd)+1} else if (lubridate::wday(ymd)=="Sat") {ymd=as.Date(ymd)-1}
-  ymd0=gsub(ymd,pattern = "-",replacement = "")
-
-  twse_5sec=paste0("https://www.twse.com.tw/exchangeReport/MI_5MINS_INDEX?response=csv&date=",ymd0)
-  tmp=read.csv(twse_5sec,skip=skip,sep=",",header=FALSE)
-  head(tmp,15)
-
-  dat0=tmp[1:3241,-ncol(tmp)]
-  HM=paste(ymd, sub("=","",dat0[,1]))
-  dat=dat0[,-1]
-  dat=sapply(dat0[,-1],function(x) as.numeric(gsub(x, pattern=",", replacement="")))
-  rownames(dat)=HM
-
-  if(is.null(index.names)) {colnames(dat)=paste0("V",seq(ncol(dat)))} else {colnames(dat)=index.names}
-
-  return(list(data=dat))
-
-}
-
 
 
