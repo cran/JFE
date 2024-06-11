@@ -1,7 +1,6 @@
 exportPattern("^[[:alpha:]]+")
-#importFrom("grDevices", "dev.new","colorRampPalette")
 importFrom("graphics", "abline", "legend","lines","par","plot", "plot.new", "grid", "rug", "text")
 importFrom("utils", "data", "download.file","head","read.csv", "read.delim","tail")
-importFrom("stats", "as.formula","coef", "cor", "cov","lm", "na.omit","quantile","residuals","sd","time","var", "as.ts", "embed")
+importFrom("stats", "fitted", "pnorm", "resid", "vcov","as.ts", "as.formula","coef", "cor", "cov","lm", "na.omit","quantile","residuals","sd","time","var", "embed")
 #export("JFE")
 import("xts")

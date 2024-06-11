@@ -92,7 +92,7 @@ second edition 2008
 
 Plantinga, A., van der Meer, R. and Sortino, F. The Impact of Downside Risk
 on Risk-Adjusted Performance of Mutual Funds in the Euronext Markets. July
-19, 2001. Available at SSRN:\url{https://www.ssrn.com/abstract=277352} \cr
+19, 2001. Available at SSRN:\url{https://papers.ssrn.com/sol3/papers.cfm?abstract_id=277352} \cr
 see especially end note 10 \url{https://en.wikipedia.org/wiki/Semivariance}. \cr
 
 See also package \code{PerformanceAnalytics}.

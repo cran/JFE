@@ -1,8 +1,10 @@
-6bd15c759931a832704fa3174f5435be *DESCRIPTION
-30cd027c0e02d3fe73d4a3957ffb9e99 *NAMESPACE
+02542a81c1ad0b2c68ec03f3d1da9409 *DESCRIPTION
+225b034884c79a7840986e956421cffa *NAMESPACE
 19b05941a9d7a2376926cc7c33826a6f *R/PerformanceIndex.R
 b2371fccbf79bdbe55fde74fd38f3c5b *R/dataDownload.R
+c638d436f8f19f9691a057081706a332 *R/durbinH.R
 b64e54a17187383026c42ba5b58a7d86 *data/assetReturns.rda
+f9700bf946130d94978f709e98e77d6a *data/macrodata.rda
 ccfccff7456c49eeaf769d5784a6ea39 *man/ActivePremium.Rd
 89af9f09bd88da52c2a191ae2f146028 *man/AdjustedSharpeRatio.Rd
 12951dc1be1338651ad1f0308d571fc9 *man/AppraisalRatio.Rd
@@ -11,7 +13,7 @@ dc7d461c5c811e70525eba8dfbb81a46 *man/BernardoLedoitRatio.Rd
 4a3e374fa4ef294e82b074826110b774 *man/CAPM.jensenAlpha.Rd
 54aa4b330f3c8822a66a3a1358d4158b *man/CalmarRatio.Rd
 c194f836b03795cbfd718b42f25b8bac *man/DRatio.Rd
-2b36170957d2068f4e2287b020b078d7 *man/DownsideDeviation.Rd
+847f4f237f5151536120df4634a817a4 *man/DownsideDeviation.Rd
 d18d3df26cd37665f2936798207ceeef *man/DrawdownPeak.Rd
 e55efe1905f2c1cfb309e788683b9814 *man/InformationRatio.Rd
 f7ec6d7aa2eef066f7917386ac455aec *man/KellyRatio.Rd
@@ -31,7 +33,8 @@ dee96b523c7be96da55f1c80f5bfa141 *man/SortinoRatio.Rd
 f1f05c5079938f2071d7293a9b31b25e *man/TreynorRatio.Rd
 26f81da2458cfd9cb7fcd51dfbe7625a *man/UlcerIndex.Rd
 c16c85d6303c4bde9f8edc6f336a32dc *man/VolatilitySkewness.Rd
-063cbe5dbef757d84b8f4b298259ecb3 *man/data-sets.Rd
+3fd11de9ca3bdc4f2153575b6bf08c91 *man/data-sets.Rd
+fa6c98dbe017827683028f103dd4f079 *man/durbinH.Rd
 93829c618157a467a35d3addd9b854cf *man/getBIS.Rd
 5808ed92baf8570c9bcdc6a3a66f96b2 *man/getFed.Rd
 b8463e8bfdbf3e26a237aa40efa70de7 *man/getFrench.Factors.Rd
