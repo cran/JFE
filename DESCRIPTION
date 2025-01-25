@@ -2,9 +2,13 @@ Package: JFE
 Type: Package
 Title: Tools for Analyzing Time Series Data of Just Finance and
         Econometrics
-Version: 2.5.7
-Date: 2024-06-11
-Author: Ho Tsung-wu
+Version: 2.5.8
+Date: 2025-01-25
+Authors@R: person(given = "Ho",
+                    family = "Tsung-wu",
+                    role = c("aut", "cre"),
+                    email = "tsungwu@ntnu.edu.tw")
+Author: Ho Tsung-wu [aut, cre]
 Maintainer: Ho Tsung-wu <tsungwu@ntnu.edu.tw>
 Description: Offers procedures to support financial-economic time series modelling and enhanced procedures for computing the investment performance indices of Bacon (2004) <DOI:10.1002/9781119206309>.
 License: GPL (>= 2)
@@ -13,6 +17,6 @@ LazyLoad: yes
 Depends: R (>= 3.5.0), xts
 Suggests: car, dynlm, openxlsx, timeDate, timeSeries, zoo
 NeedsCompilation: no
-Packaged: 2024-06-11 08:41:10 UTC; badal
+Packaged: 2025-01-25 03:56:59 UTC; tsungwu
 Repository: CRAN
-Date/Publication: 2024-06-11 08:50:02 UTC
+Date/Publication: 2025-01-25 04:20:01 UTC

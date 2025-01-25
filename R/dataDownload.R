@@ -15,18 +15,19 @@ getBIS <- function (sheet="Real", type="broad"){
 }
 
 
-getFed <- function (var.name="UNRATE", from="1900-01-01",end=Sys.Date(), do.plot=TRUE){
+getFed <- function (var.name="UNRATE", freq="Monthly", do.plot=TRUE, plot.name=NULL){
+  mainpath="https://fred.stlouisfed.org/graph/fredgraph.csv?&id="
 
-  url=paste0("https://fred.stlouisfed.org/graph/fredgraph.csv?&id=",
-             var.name,"&revision_date=",
-             end,
-             "&nd=",
-             from)
+  url=paste0(mainpath,var.name,"&fq=",freq)
   dat0=read.csv(url)
   dat=dat0[,2,drop=FALSE]
-  rownames(dat)=as.character(dat0[,1])
-  # xts::as.xts(dat0[,2,drop=FALSE],as.Date(dat0[,1]))
-#  if (isTRUE(do.plot)) {.seriesPlotX(timeSeries::as.timeSeries(dat))}
+  rownames(dat)=as.Date(dat0[,1])
+  if(is.null(plot.name)) {
+    MAIN=paste0(freq," ", var.name)
+
+  } else { MAIN=plot.name}
+
+  if (isTRUE(do.plot)) {.seriesPlotX(timeSeries::as.timeSeries(dat),MAIN=MAIN)}
 
   return(list(data=dat))
 }
@@ -221,36 +222,16 @@ getFrench.Portfolios<-function(filename="Portfolios_Formed_on_ME") {
 
 
 .seriesPlotX <-
-  function(x, labels = TRUE, type = "l", col = "indianred2",title = TRUE, grid = TRUE, box = TRUE, rug = TRUE, ...)
+  function(x, type = "l", col = "indianred2", MAIN=MAIN,grid = TRUE, box = TRUE, rug = TRUE, ...)
 
   {
-
-    #    stopifnot(is.timeSeries(x))
-    N = NCOL(x)
-    Units = colnames(x)
-    if (length(col) == 1) col = rep(col, times = N)
-
     # Series Plots:
-    for (i in 1:N) {
-      X = x[, i]
-      plot(x = X, type = type, col = col[i], ann = FALSE, ...)
-
-      # Add Title:
-      if (title) {
-        title(main = Units[i])
-      } else {
-        title(...)
-      }
-
-      # Add Grid:
+      plot(x, type = type, col = col, ...)
+      title(main = MAIN)
       if(grid) grid()
-
-      # Add Box:
       if(box) box()
+      if(rug) rug(as.vector(x), ticksize = 0.01, side = 2, quiet = TRUE)
 
-      # Add Rugs:
-      if(rug) rug(as.vector(X), ticksize = 0.01, side = 2, quiet = TRUE)
-    }
 
     # Return Value:
     invisible()

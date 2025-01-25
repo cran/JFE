@@ -9,7 +9,7 @@
 It downloads financial and economic time series data from the Fed.
 }
 \usage{
-getFed(var.name="UNRATE", from="1900-01-01",end=Sys.Date(), do.plot=TRUE)
+getFed(var.name="UNRATE", freq="Monthly", do.plot=TRUE, plot.name=NULL)
 }
 
 \arguments{
@@ -17,14 +17,14 @@ getFed(var.name="UNRATE", from="1900-01-01",end=Sys.Date(), do.plot=TRUE)
 The name of variable as used by <"https://fred.stlouisfed.org">. For example, "UNRATE" denotes unemployment rate, "CPIAUCSL" is monthly consumer price index, "GDP" is Gross domestic product, and "ICSA" is the initial claim seasonally adjusted. User please check with the web for symbol.
 }
 
-  \item{from}{The starting date, the default is 1900-01-01 to ensure the very beginning.
+  \item{freq}{The time series frequency, match Fed label, for example,"Monthly","Quarterly".
 
 }
 
-  \item{end}{The ending date of data retrieved, the default is Sys.Date().}
+  \item{do.plot}{Whether to plot the retrieved data, the default is TRUE. Please set this value to be FALSE to avoid too many plotting, if you want to loop more downloads.}
 
 
-  \item{do.plot}{Whether to plot the retrieved data, the default is TRUE. Please set this value to be FALSE to avoid too many plotting, if you want to loop more downloads. It applies functionseriesPlot() from package fBasics.}
+  \item{plot.name}{if do.plot=TRUE, the main label appeared. Default is var.name.}
 
 }
 
@@ -49,6 +49,8 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
 
 \examples{
 #To save time, the example below is commented.
-#getFed(var.name="UNRATE")$data
+#getFed(var.name="UNRATE", freq="Monthly",
+#do.plot=TRUE,
+#plot.name="Monthly US Unemployment Rate")$data
 
 }
