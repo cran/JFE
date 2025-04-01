@@ -1,40 +1,71 @@
-getBIS <- function (sheet="Real", type="broad"){
+#getBIS <- function (sheet="Real", type="broad"){
   #BIS effective exchange rates
-  cat("Getting", sheet, "Effective Exchange Rate,",type, paste0(substr(sheet,1,1),"EER"))
-  eer=paste0("https://www.bis.org/statistics/eer/",type,".xlsx")
-  tmp = openxlsx::read.xlsx(eer, sheet=sheet, colNames=T, detectDates = T, startRow = 4)
+#  cat("Getting", sheet, "Effective Exchange Rate,",type, paste0(substr(sheet,1,1),"EER"))
+#  eer=paste0("https://www.bis.org/statistics/eer/",type,".xlsx")
+#  tmp = openxlsx::read.xlsx(eer, sheet=sheet, colNames=T, detectDates = T, startRow = 4)
   #  countryNames=colnames(tmp)[-1]
   #  shortID=tmp[1,][-1]
-  eer_ts = tmp[-1,-1]
-  rownames(eer_ts)=tmp[-1,1]
+#  eer_ts = tmp[-1,-1]
+#  rownames(eer_ts)=tmp[-1,1]
 
-  country.info=data.frame(country.names=colnames(tmp)[-1],short.names=t(tmp[1,][-1]))
-  rownames(country.info)=NULL
-  colnames(country.info)=c("country.names","BIS.ID")
-  return(list(data=eer_ts,country.info=country.info,data.info=paste(type,sheet, "Effective Exchange Rate")))
+#  country.info=data.frame(country.names=colnames(tmp)[-1],short.names=t(tmp[1,][-1]))
+#  rownames(country.info)=NULL
+#  colnames(country.info)=c("country.names","BIS.ID")
+#  return(list(data=eer_ts,country.info=country.info,data.info=paste(type,sheet, "Effective Exchange Rate")))
+#}
+
+
+getEER <-function(Areas=c("US","JP"),Freq="Monthly",Type="Real",Basket="Broad"){
+  Sys.setenv('_R_CHECK_SYSTEM_CLOCK_' = 0)
+  cat("Getting", Freq, Type, Basket, "Effective Exchange Rate of",Areas,"\n")
+
+  if (Freq=="Daily" & Type=="Real") stop("Daily frequency does not have REER")
+
+  ID=paste(substr(Freq,1,1),substr(Type,1,1),substr(Basket,1,1),sep=".")
+
+  #Daily, Nominal and Broad
+  main=paste0("https://stats.bis.org/api/v2/data/dataflow/BIS/WS_EER/1.0/", ID,".")
+  END="?format=csv"
+  #areas=c("AR","AU","BR","CA","CN","DE","FR","GB","ID","IN","IT","JP","KR","MX","RU","SA","TR","US","ZA")
+  AREA=paste0(main, Areas, END)
+  DNB_G20=NULL
+  for (i in seq(AREA)) {
+    tmp=read.csv(AREA[i])[,c("TIME_PERIOD","OBS_VALUE")]
+
+    if(Freq=="Monthly") {DATE=paste0(tmp[,1],"-01")
+    } else {DATE=tmp[,1]}
+
+    dat=as.matrix(tmp[,-1])
+    rownames(dat)=DATE
+    #dat=timeSeries::as.timeSeries(dat)
+
+    DNB_G20=cbind(DNB_G20, dat)
+    cat(Areas[i],"\n")
+  }
+  colnames(DNB_G20)=Areas
+
+  return(DNB_G20)
+
 }
 
 
-getFed <- function (var.name="UNRATE", freq="Monthly", do.plot=TRUE, plot.name=NULL){
+getFed <- function (var.name="UNRATE", freq="Monthly"){
+
   mainpath="https://fred.stlouisfed.org/graph/fredgraph.csv?&id="
 
   url=paste0(mainpath,var.name,"&fq=",freq)
   dat0=read.csv(url)
   dat=dat0[,2,drop=FALSE]
-  rownames(dat)=as.Date(dat0[,1])
-  if(is.null(plot.name)) {
-    MAIN=paste0(freq," ", var.name)
+  rownames(dat)=as.character(dat0[,1])
+  #dat=timeSeries::as.timeSeries(dat)
 
-  } else { MAIN=plot.name}
-
-  if (isTRUE(do.plot)) {.seriesPlotX(timeSeries::as.timeSeries(dat),MAIN=MAIN)}
-
-  return(list(data=dat))
+  return(dat)
 }
 
 
 
 getFrench.Factors<-function(filename="F-F_Research_Data_5_Factors_2x3") {
+
   url="http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/"
 
   ##Step 1. Download .zip dataset
@@ -61,8 +92,7 @@ getFrench.Factors<-function(filename="F-F_Research_Data_5_Factors_2x3") {
     tmp0=read.csv(unz(temp, fileCSV),header=FALSE, blank.lines.skip = FALSE)
     S=which(grepl("19", tmp0[1:30,1]))[1];S
     ff.factor0 = read.csv(unz(temp, fileCSV),skip=S-2,header=TRUE, blank.lines.skip = FALSE)
-    head(ff.factor0,15)
-    tail(ff.factor0)
+
     end.date=grep("Copyright ",ff.factor0[,1])-2
     if (length(end.date)==0) {end.date=nrow(ff.factor0)} else {
       end.date=end.date
@@ -70,7 +100,7 @@ getFrench.Factors<-function(filename="F-F_Research_Data_5_Factors_2x3") {
 
     ff.factor=ff.factor0[1:end.date,]
     colnames(ff.factor)=c("Dates", colnames(ff.factor0[-1]))
-    head(ff.factor);tail(ff.factor)
+
 
 dat=ff.factor
 table.names="Only one table"
@@ -81,7 +111,8 @@ table.names="Only one table"
 
     tmp0=read.csv(unz(temp, fileCSV), header=FALSE, blank.lines.skip = FALSE)
 #    head(tmp0,20)
-    S=which(grepl("19", tmp0[1:30,1]))[1];S
+    S=which(grepl("19", tmp0[1:30,1]))[1]
+
     ff.factor0 = read.csv(unz(temp, fileCSV), skip=S-2,header=TRUE, blank.lines.skip = FALSE)
 #    head(ff.factor0,15)
 #    tail(ff.factor0)
@@ -111,7 +142,7 @@ table.names="Only one table"
 
     tmp0=read.csv(unz(temp, fileCSV), header=FALSE, blank.lines.skip = FALSE)
     head(tmp0,20)
-    S=which(grepl("19", tmp0[1:30,1]))[1];S
+    S=which(grepl("19", tmp0[1:30,1]))[1]
     ff.factor0 = read.csv(unz(temp, fileCSV), skip=S-2,header=TRUE, blank.lines.skip = FALSE)
     end.date=grep("Annual Factors",ff.factor0[,1])-2
 
@@ -221,7 +252,7 @@ getFrench.Portfolios<-function(filename="Portfolios_Formed_on_ME") {
 
 
 
-.seriesPlotX <-
+.seriesPlot <-
   function(x, type = "l", col = "indianred2", MAIN=MAIN,grid = TRUE, box = TRUE, rug = TRUE, ...)
 
   {

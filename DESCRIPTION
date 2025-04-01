@@ -2,8 +2,8 @@ Package: JFE
 Type: Package
 Title: Tools for Analyzing Time Series Data of Just Finance and
         Econometrics
-Version: 2.5.8
-Date: 2025-01-25
+Version: 2.5.9
+Date: 2025-04-01
 Authors@R: person(given = "Ho",
                     family = "Tsung-wu",
                     role = c("aut", "cre"),
@@ -17,6 +17,6 @@ LazyLoad: yes
 Depends: R (>= 3.5.0), xts
 Suggests: car, dynlm, openxlsx, timeDate, timeSeries, zoo
 NeedsCompilation: no
-Packaged: 2025-01-25 03:56:59 UTC; tsungwu
+Packaged: 2025-04-01 01:15:42 UTC; badal
 Repository: CRAN
-Date/Publication: 2025-01-25 04:20:01 UTC
+Date/Publication: 2025-04-01 02:30:02 UTC

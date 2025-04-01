@@ -1,7 +1,7 @@
-b17628464b5496bd03d77276e4709168 *DESCRIPTION
+99eac0acc4044bdedaa7c3e0c213432a *DESCRIPTION
 c1ac663f1a9ed27d3682635b2a6f8b50 *NAMESPACE
 19b05941a9d7a2376926cc7c33826a6f *R/PerformanceIndex.R
-1a313f385c65b63c2a909adb17d8ab17 *R/dataDownload.R
+04e83e27d707828e91300a2d10f0d569 *R/dataDownload.R
 c638d436f8f19f9691a057081706a332 *R/durbinH.R
 b64e54a17187383026c42ba5b58a7d86 *data/assetReturns.rda
 f9700bf946130d94978f709e98e77d6a *data/macrodata.rda
@@ -35,8 +35,8 @@ f1f05c5079938f2071d7293a9b31b25e *man/TreynorRatio.Rd
 c16c85d6303c4bde9f8edc6f336a32dc *man/VolatilitySkewness.Rd
 3fd11de9ca3bdc4f2153575b6bf08c91 *man/data-sets.Rd
 fa6c98dbe017827683028f103dd4f079 *man/durbinH.Rd
-93829c618157a467a35d3addd9b854cf *man/getBIS.Rd
-eec25ab8eef607337615cf3872407e9d *man/getFed.Rd
+c2a3a0040c36bd810939a3b5270439b1 *man/getEER.Rd
+e1f4a5dc1fe4952976bd1b70726dc8c9 *man/getFed.Rd
 b8463e8bfdbf3e26a237aa40efa70de7 *man/getFrench.Factors.Rd
 2ea4acc76b0437df8dca6e6dda3ddfbe *man/getFrench.Portfolios.Rd
 89ea1ad5471a255a1143123e9feed1cb *man/maxDrawdown.Rd
