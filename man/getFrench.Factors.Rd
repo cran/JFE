@@ -50,8 +50,8 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
 }
 
 \examples{
-
-getFrench.Factors(filename="F-F_Research_Data_Factors")
+#Data server may reject external connection. If it happens, never mind.
+#getFrench.Factors(filename="F-F_Research_Data_Factors")
 
 
 }

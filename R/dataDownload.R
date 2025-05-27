@@ -1,20 +1,3 @@
-#getBIS <- function (sheet="Real", type="broad"){
-  #BIS effective exchange rates
-#  cat("Getting", sheet, "Effective Exchange Rate,",type, paste0(substr(sheet,1,1),"EER"))
-#  eer=paste0("https://www.bis.org/statistics/eer/",type,".xlsx")
-#  tmp = openxlsx::read.xlsx(eer, sheet=sheet, colNames=T, detectDates = T, startRow = 4)
-  #  countryNames=colnames(tmp)[-1]
-  #  shortID=tmp[1,][-1]
-#  eer_ts = tmp[-1,-1]
-#  rownames(eer_ts)=tmp[-1,1]
-
-#  country.info=data.frame(country.names=colnames(tmp)[-1],short.names=t(tmp[1,][-1]))
-#  rownames(country.info)=NULL
-#  colnames(country.info)=c("country.names","BIS.ID")
-#  return(list(data=eer_ts,country.info=country.info,data.info=paste(type,sheet, "Effective Exchange Rate")))
-#}
-
-
 getEER <-function(Areas=c("US","JP"),Freq="Monthly",Type="Real",Basket="Broad"){
   Sys.setenv('_R_CHECK_SYSTEM_CLOCK_' = 0)
   cat("Getting", Freq, Type, Basket, "Effective Exchange Rate of",Areas,"\n")
@@ -74,11 +57,11 @@ getFrench.Factors<-function(filename="F-F_Research_Data_5_Factors_2x3") {
                        "F-F_Research_Data_5_Factors_2x3"))
     { fileCSV=paste0(filename,".csv") } else {  fileCSV=paste0(filename,".CSV") }
 
- {   fileZIP=paste0(filename,"_CSV.zip")
+    fileZIP=paste0(filename,"_CSV.zip")
     Link=paste0(url,fileZIP)
     temp = tempfile(tmpdir=getwd(),fileext = ".zip")
     download.file(Link,temp)
-  }
+
 
 
   ##Step 2. Retrieve .csv data
@@ -177,8 +160,6 @@ table.names="Only one table"
 
 
 }
-
-
 
 
 
